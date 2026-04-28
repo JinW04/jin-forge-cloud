@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Jin-Forge Cloud Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-tint": "#a3c9ff",
+                        "surface-variant": "#2d3449",
+                        "on-secondary-container": "#aeb9d0",
+                        "background": "#0b1326",
+                        "outline": "#8a919e",
+                        "secondary": "#bcc7de",
+                        "on-surface": "#dae2fd",
+                        "primary": "#a3c9ff",
+                        "error-container": "#93000a",
+                        "tertiary-fixed-dim": "#89ceff",
+                        "on-primary-container": "#ffffff",
+                        "surface-container-low": "#131b2e",
+                        "surface-dim": "#0b1326",
+                        "secondary-fixed": "#d8e3fb",
+                        "inverse-on-surface": "#283044",
+                        "inverse-surface": "#dae2fd",
+                        "on-error": "#690005",
+                        "surface": "#0b1326",
+                        "secondary-fixed-dim": "#bcc7de",
+                        "on-secondary-fixed": "#111c2d",
+                        "primary-fixed-dim": "#a3c9ff",
+                        "on-tertiary-fixed-variant": "#004c6e",
+                        "on-error-container": "#ffdad6",
+                        "surface-container-lowest": "#060e20",
+                        "primary-fixed": "#d3e3ff",
+                        "on-secondary-fixed-variant": "#3c475a",
+                        "tertiary-fixed": "#c9e6ff",
+                        "surface-bright": "#31394d",
+                        "error": "#ffb4ab",
+                        "on-tertiary": "#00344d",
+                        "inverse-primary": "#0060ab",
+                        "on-primary-fixed-variant": "#004883",
+                        "surface-container-highest": "#2d3449",
+                        "surface-container-high": "#222a3d",
+                        "surface-container": "#171f33",
+                        "on-secondary": "#263143",
+                        "on-primary-fixed": "#001c39",
+                        "outline-variant": "#404752",
+                        "on-background": "#dae2fd",
+                        "secondary-container": "#3e495d",
+                        "on-tertiary-container": "#ffffff",
+                        "on-surface-variant": "#c0c7d4",
+                        "tertiary-container": "#007eb4",
+                        "tertiary": "#89ceff",
+                        "primary-container": "#0078d4",
+                        "on-primary": "#00315c",
+                        "on-tertiary-fixed": "#001e2f"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glow-primary {
+            text-shadow: 0 0 15px rgba(163, 201, 255, 0.4);
+        }
+        .vending-slot {
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.4);
+        }
+        body {
+            background: radial-gradient(circle at top right, #171f33, #0b1326);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary selection:text-on-primary">
+<!-- Layout Container -->
+<div class="flex min-h-screen">
+<!-- SideNavBar (JSON Component) -->
+<aside class="fixed left-0 top-0 h-full z-40 py-8 flex flex-col bg-[#131b2e] dark:bg-[#131b2e] w-64 shadow-[40px_0_60px_rgba(218,226,253,0.08)]">
+<div class="px-6 mb-10">
+<div class="flex items-center gap-3 mb-1">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="rocket_launch">rocket_launch</span>
+<h1 class="text-xl font-black tracking-tighter text-[#dae2fd] glow-primary">JIN-FORGE CLOUD</h1>
+</div>
+<p class="font-['Inter'] uppercase tracking-widest text-[10px] font-medium text-[#dae2fd]/60">PERSONAL PROVISIONING HUB</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 bg-gradient-to-r from-[#a3c9ff] to-[#0078d4] text-white rounded-r-full py-3 px-6 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-['Inter'] uppercase tracking-widest text-[10px] font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 text-[#dae2fd]/70 py-3 px-6 hover:text-[#a3c9ff] hover:bg-[#171f33] transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-['Inter'] uppercase tracking-widest text-[10px] font-medium">Resources</span>
+</a>
+<a class="flex items-center gap-3 text-[#dae2fd]/70 py-3 px-6 hover:text-[#a3c9ff] hover:bg-[#171f33] transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="hub">hub</span>
+<span class="font-['Inter'] uppercase tracking-widest text-[10px] font-medium">Networks</span>
+</a>
+<a class="flex items-center gap-3 text-[#dae2fd]/70 py-3 px-6 hover:text-[#a3c9ff] hover:bg-[#171f33] transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="security">security</span>
+<span class="font-['Inter'] uppercase tracking-widest text-[10px] font-medium">Security</span>
+</a>
+<a class="flex items-center gap-3 text-[#dae2fd]/70 py-3 px-6 hover:text-[#a3c9ff] hover:bg-[#171f33] transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="terminal">terminal</span>
+<span class="font-['Inter'] uppercase tracking-widest text-[10px] font-medium">Logs</span>
+</a>
+</nav>
+<div class="mt-auto px-4 space-y-4">
+<button class="w-full py-3 bg-primary-container text-on-primary-container rounded-xl font-bold text-xs uppercase tracking-widest flex items-center justify-center gap-2 hover:scale-[0.98] transition-transform">
+<span class="material-symbols-outlined text-lg" data-icon="add">add</span>
+                    New Provision
+                </button>
+<div class="pt-4 border-t border-white/5">
+<a class="flex items-center gap-3 text-[#dae2fd]/70 py-2 px-4 hover:text-[#a3c9ff] transition-all text-[10px] uppercase tracking-widest font-medium" href="#">
+<span class="material-symbols-outlined text-sm" data-icon="help_outline">help_outline</span> Support
+                    </a>
+<a class="flex items-center gap-3 text-[#dae2fd]/70 py-2 px-4 hover:text-[#a3c9ff] transition-all text-[10px] uppercase tracking-widest font-medium" href="#">
+<span class="material-symbols-outlined text-sm" data-icon="manage_accounts">manage_accounts</span> Account
+                    </a>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 ml-64 flex flex-col min-h-screen">
+<!-- TopNavBar (JSON Component) -->
+<header class="flex items-center justify-between px-6 w-full h-16 bg-[#0b1326] dark:bg-[#0b1326] border-b border-white/5 sticky top-0 z-30">
+<div class="flex items-center gap-8">
+<span class="text-lg font-bold tracking-tight text-[#dae2fd] font-headline">Jin's cloud service</span>
+<div class="hidden md:flex items-center bg-surface-container-low px-4 py-1.5 rounded-full border border-outline-variant/10 w-96">
+<span class="material-symbols-outlined text-outline text-lg" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm text-on-surface w-full placeholder:text-outline-variant" placeholder="Search resources..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-[#dae2fd]/60 hover:bg-[#222a3d] rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</button>
+<button class="p-2 text-[#dae2fd]/60 hover:bg-[#222a3d] rounded-full transition-colors relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full"></span>
+</button>
+<button class="p-2 text-[#dae2fd]/60 hover:bg-[#222a3d] rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<div class="h-8 w-px bg-white/10 mx-2"></div>
+<img alt="Jin's Profile" class="w-8 h-8 rounded-full border border-primary/20 object-cover" data-alt="close-up portrait of a professional man in a modern office environment with soft cinematic lighting and blurred background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzE5RIM1DV22m46snf5hJ-Kp657U8xaFWJrf0n-ZsddMgk6ctYR9ZJMmTbctAEIm-ayOlqjAErZijq2oRDDCmNUlXPwrytXstZDepuKLYURAtgfLaK1UPx7vhJOkk1XQWF-MHerFsXIdkHwK62vSHQ7GaLLPQg8H76FyyTJPXtsZ0MJ08ucRXSYIyW3WI2ymLSsAqktrC4U_WxL2qwZY_gpI0_cI4eRqn142zBGn_PTEUJgEsmniOZq-7TMBz5yuw4LvpM2cvPBA"/>
+</div>
+</header>
+<div class="p-8 max-w-7xl mx-auto w-full">
+<!-- Page Header -->
+<div class="mb-10">
+<h2 class="text-4xl font-extrabold text-on-surface font-headline tracking-tight mb-2">Create a New Resource</h2>
+<p class="text-on-surface-variant max-w-2xl text-lg">Instantly provision secure, compliant, and cost-optimized infrastructure in global regions.</p>
+</div>
+<!-- Main Layout Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Form Side (8 cols) -->
+<div class="lg:col-span-8 space-y-8">
+<!-- Provisioning Form -->
+<div class="bg-surface-container-low p-8 rounded-xl space-y-8 relative overflow-hidden">
+<div class="absolute top-0 right-0 p-6 opacity-10 pointer-events-none">
+<span class="material-symbols-outlined text-8xl" data-icon="rocket">rocket</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="block text-[10px] uppercase tracking-widest font-bold text-on-surface-variant font-label">Project Name</label>
+<input class="w-full bg-surface-container-lowest border border-outline-variant/20 focus:border-primary focus:ring-1 focus:ring-primary rounded-lg px-4 py-3 text-on-surface transition-all" placeholder="e.g. Project-X-2024" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="block text-[10px] uppercase tracking-widest font-bold text-on-surface-variant font-label">Environment</label>
+<select class="w-full bg-surface-container-lowest border border-outline-variant/20 focus:border-primary focus:ring-1 focus:ring-primary rounded-lg px-4 py-3 text-on-surface transition-all appearance-none">
+<option>Development</option>
+<option>Staging</option>
+<option>Production</option>
+</select>
+</div>
+</div>
+<div class="space-y-4">
+<label class="block text-[10px] uppercase tracking-widest font-bold text-on-surface-variant font-label">Resource Type</label>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+<div class="group cursor-pointer bg-surface-container hover:bg-surface-container-high border border-primary rounded-xl p-5 transition-all flex flex-col items-center text-center gap-3">
+<span class="material-symbols-outlined text-3xl text-primary" data-icon="cloud">cloud</span>
+<div>
+<p class="font-bold text-sm text-on-surface">Azure Web App</p>
+<p class="text-[10px] text-on-surface-variant uppercase mt-1">PaaS</p>
+</div>
+</div>
+<div class="group cursor-pointer bg-surface-container-lowest hover:bg-surface-container-high border border-outline-variant/10 rounded-xl p-5 transition-all flex flex-col items-center text-center gap-3">
+<span class="material-symbols-outlined text-3xl text-on-surface-variant group-hover:text-primary" data-icon="database">database</span>
+<div>
+<p class="font-bold text-sm text-on-surface">PostgreSQL</p>
+<p class="text-[10px] text-on-surface-variant uppercase mt-1">Managed DB</p>
+</div>
+</div>
+<div class="group cursor-pointer bg-surface-container-lowest hover:bg-surface-container-high border border-outline-variant/10 rounded-xl p-5 transition-all flex flex-col items-center text-center gap-3">
+<span class="material-symbols-outlined text-3xl text-on-surface-variant group-hover:text-primary" data-icon="folder_data">folder_data</span>
+<div>
+<p class="font-bold text-sm text-on-surface">Storage Account</p>
+<p class="text-[10px] text-on-surface-variant uppercase mt-1">Object Store</p>
+</div>
+</div>
+</div>
+</div>
+<div class="space-y-2">
+<label class="block text-[10px] uppercase tracking-widest font-bold text-on-surface-variant font-label">Cost Center</label>
+<input class="w-full bg-surface-container-lowest border border-outline-variant/20 focus:border-primary focus:ring-1 focus:ring-primary rounded-lg px-4 py-3 text-on-surface transition-all" placeholder="Internal Billing ID" type="text"/>
+</div>
+<button class="w-full py-4 bg-gradient-to-r from-primary to-primary-container text-on-primary-container font-black text-sm uppercase tracking-[0.2em] rounded-xl hover:shadow-[0_0_20px_rgba(163,201,255,0.3)] transition-all flex items-center justify-center gap-3 active:scale-95">
+<span class="material-symbols-outlined" data-icon="rocket_launch">rocket_launch</span>
+                                PROVISION RESOURCE
+                            </button>
+</div>
+<!-- Recent Requests -->
+<div class="space-y-6">
+<div class="flex items-center justify-between">
+<h3 class="text-xl font-bold font-headline text-on-surface">Recent Requests</h3>
+<a class="text-xs uppercase tracking-widest font-bold text-primary hover:underline transition-all" href="#">View All History</a>
+</div>
+<div class="bg-surface-container-low rounded-xl overflow-hidden">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-high">
+<th class="px-6 py-4 text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">Resource Name</th>
+<th class="px-6 py-4 text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">Type</th>
+<th class="px-6 py-4 text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">Status</th>
+<th class="px-6 py-4 text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">Created</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-white/5">
+<tr class="hover:bg-white/5 transition-colors">
+<td class="px-6 py-4 font-medium text-sm">Data-Lake-Alpha</td>
+<td class="px-6 py-4 text-sm text-on-surface-variant">PostgreSQL</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shadow-[0_0_8px_rgba(52,211,153,0.15)]">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> ACTIVE
+                                                </span>
+</td>
+<td class="px-6 py-4 text-sm text-on-surface-variant">Oct 24, 2023</td>
+</tr>
+<tr class="hover:bg-white/5 transition-colors">
+<td class="px-6 py-4 font-medium text-sm">Web-Portal-Next</td>
+<td class="px-6 py-4 text-sm text-on-surface-variant">Azure Web App</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide bg-primary/10 text-primary border border-primary/20">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span> DEPLOYING
+                                                </span>
+</td>
+<td class="px-6 py-4 text-sm text-on-surface-variant">Oct 25, 2023</td>
+</tr>
+<tr class="hover:bg-white/5 transition-colors">
+<td class="px-6 py-4 font-medium text-sm">Legacy-Sync-Service</td>
+<td class="px-6 py-4 text-sm text-on-surface-variant">VM Instance</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide bg-error-container/20 text-error border border-error/20">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span> FAILED
+                                                </span>
+</td>
+<td class="px-6 py-4 text-sm text-on-surface-variant">Oct 22, 2023</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Sidebar Info (4 cols) -->
+<div class="lg:col-span-4 space-y-6">
+<!-- Capabilities Box -->
+<div class="bg-surface-container-high border-t-2 border-primary p-8 rounded-xl space-y-6">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" data-icon="verified">verified</span>
+<h3 class="text-sm font-black uppercase tracking-widest text-primary font-headline">PLATFORM CAPABILITIES</h3>
+</div>
+<p class="text-sm text-on-surface-variant leading-relaxed">
+                                Our system utilizes hardened, pre-configured Terraform modules with built-in compliance checks, ensuring immediate enterprise-grade readiness for your project.
+                            </p>
+<ul class="space-y-4">
+<li class="flex items-center gap-3 group">
+<div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-on-primary transition-colors">
+<span class="material-symbols-outlined text-lg" data-icon="check_box">check_box</span>
+</div>
+<span class="text-xs font-semibold text-on-surface">Azure CIS Benchmarks Check</span>
+</li>
+<li class="flex items-center gap-3 group">
+<div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-on-primary transition-colors">
+<span class="material-symbols-outlined text-lg" data-icon="shield">shield</span>
+</div>
+<span class="text-xs font-semibold text-on-surface">Zero Trust Security Defaults</span>
+</li>
+<li class="flex items-center gap-3 group">
+<div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-on-primary transition-colors">
+<span class="material-symbols-outlined text-lg" data-icon="lock">lock</span>
+</div>
+<span class="text-xs font-semibold text-on-surface">Automated Key Vault Secrets</span>
+</li>
+</ul>
+</div>
+<!-- Cost Projection -->
+<div class="bg-surface-container-lowest p-8 rounded-xl border border-outline-variant/10 relative overflow-hidden vending-slot">
+<div class="flex flex-col gap-2 relative z-10">
+<span class="text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant">Estimated Monthly Run</span>
+<div class="flex items-baseline gap-1">
+<span class="text-4xl font-black text-on-surface">$42.00</span>
+<span class="text-sm font-bold text-on-surface-variant">/mo</span>
+</div>
+</div>
+<div class="mt-6 flex gap-2">
+<div class="h-1 flex-1 bg-primary/20 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[65%]"></div>
+</div>
+</div>
+<p class="mt-3 text-[10px] text-on-surface-variant italic">Based on standard B-series compute profile.</p>
+</div>
+<!-- Resource Visual Card -->
+<div class="relative group rounded-xl overflow-hidden aspect-[4/3]">
+<img alt="Cloud Visualization" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="abstract digital visualization of cloud data networks with glowing blue lines and data particles in a dark technological space" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHqrSZ8C_rx42z7uR25MpE4s24w5JQt-WXqP3qDafoCTVp6uuoFnrZS1Kawq-oGVPecvUkjDnjqqTvVjNPUQ_FsMw-jy--sYmLL1GCs-vXM-NYO9qtqjBw1cGh208PwtJdxXHa1cj38TPyTaHansfReiIfXcnBkye0wovOpSostaXmMQMWa9WW-08YdqDImNn4a3PTOMzQTYpa_UtL2QvHsIAHSHRRes9cUvCi5JqiYV6mykTmEuChatnAZlpBYjoL8CHTffDF0Q"/>
+<div class="absolute inset-0 bg-gradient-to-t from-[#0b1326] via-transparent to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-6">
+<p class="text-xs font-bold uppercase tracking-widest text-primary mb-1">Architecture Preview</p>
+<p class="text-sm text-on-surface/80">View generated topology diagram after provisioning.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer class="mt-auto py-8 px-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container text-xl" data-icon="rocket_launch">rocket_launch</span>
+<span class="text-sm font-bold text-on-surface/40 tracking-tighter">JIN-FORGE CLOUD © 2024</span>
+</div>
+<div class="flex gap-8">
+<a class="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy</a>
+<a class="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant hover:text-primary transition-colors" href="#">Compliance</a>
+<a class="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant hover:text-primary transition-colors" href="#">API Docs</a>
+</div>
+</footer>
+</main>
+</div>
+</body></html>

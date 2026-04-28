@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0b1326;
+        }
+        h1, h2, h3, .headline {
+            font-family: 'Manrope', sans-serif;
+        }
+        .glass-panel {
+            background: rgba(45, 52, 73, 0.6);
+            backdrop-filter: blur(20px);
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #a3c9ff 0%, #0078d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .primary-gradient-bg {
+            background: linear-gradient(135deg, #a3c9ff 0%, #0078d4 100%);
+        }
+        .chart-gradient {
+            fill: url(#chartGradient);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#a3c9ff",
+                        "inverse-surface": "#dae2fd",
+                        "on-surface": "#dae2fd",
+                        "on-primary-fixed-variant": "#004883",
+                        "secondary-container": "#3e495d",
+                        "on-tertiary-container": "#ffffff",
+                        "on-secondary-fixed-variant": "#3c475a",
+                        "on-error-container": "#ffdad6",
+                        "secondary-fixed": "#d8e3fb",
+                        "on-background": "#dae2fd",
+                        "surface-bright": "#31394d",
+                        "secondary": "#bcc7de",
+                        "surface-dim": "#0b1326",
+                        "primary-container": "#0078d4",
+                        "on-secondary-fixed": "#111c2d",
+                        "tertiary": "#89ceff",
+                        "surface-container": "#171f33",
+                        "on-surface-variant": "#c0c7d4",
+                        "error": "#ffb4ab",
+                        "primary-fixed": "#d3e3ff",
+                        "tertiary-fixed": "#c9e6ff",
+                        "on-tertiary-fixed-variant": "#004c6e",
+                        "surface-container-highest": "#2d3449",
+                        "surface-container-high": "#222a3d",
+                        "on-primary-fixed": "#001c39",
+                        "on-tertiary": "#00344d",
+                        "surface-tint": "#a3c9ff",
+                        "outline": "#8a919e",
+                        "on-tertiary-fixed": "#001e2f",
+                        "surface": "#0b1326",
+                        "on-primary-container": "#ffffff",
+                        "secondary-fixed-dim": "#bcc7de",
+                        "primary-fixed-dim": "#a3c9ff",
+                        "inverse-on-surface": "#283044",
+                        "surface-variant": "#2d3449",
+                        "on-primary": "#00315c",
+                        "surface-container-low": "#131b2e",
+                        "on-secondary-container": "#aeb9d0",
+                        "error-container": "#93000a",
+                        "on-error": "#690005",
+                        "on-secondary": "#263143",
+                        "tertiary-container": "#007eb4",
+                        "inverse-primary": "#0060ab",
+                        "surface-container-lowest": "#060e20",
+                        "outline-variant": "#404752",
+                        "tertiary-fixed-dim": "#89ceff",
+                        "background": "#0b1326"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            }
+        }
+    </script>
+</head>
+<body class="bg-surface text-on-surface min-h-screen">
+<!-- Sidebar Navigation -->
+<aside class="flex flex-col h-screen fixed left-0 top-0 py-6 bg-[#131b2e] dark:bg-[#131b2e] w-64 z-50">
+<div class="px-6 mb-10">
+<h1 class="text-lg font-black text-[#a3c9ff] tracking-tight headline uppercase">CloudOps</h1>
+<p class="text-xs text-[#dae2fd]/50 font-label tracking-[0.1em] uppercase">Vending Machine</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center px-6 py-3 text-[#dae2fd]/50 hover:text-[#dae2fd] hover:bg-[#171f33] transition-all group" href="#">
+<span class="material-symbols-outlined mr-3">add_circle</span>
+<span class="text-sm font-label tracking-[0.1em] uppercase">New Request</span>
+</a>
+<a class="flex items-center px-6 py-3 text-[#dae2fd]/50 hover:text-[#dae2fd] hover:bg-[#171f33] transition-all group" href="#">
+<span class="material-symbols-outlined mr-3">inventory_2</span>
+<span class="text-sm font-label tracking-[0.1em] uppercase">My Resources</span>
+</a>
+<a class="flex items-center px-6 py-3 text-[#a3c9ff] border-r-2 border-[#a3c9ff] bg-[#171f33] transition-all group" href="#">
+<span class="material-symbols-outlined mr-3">insights</span>
+<span class="text-sm font-label tracking-[0.1em] uppercase">Cost Overview</span>
+</a>
+<a class="flex items-center px-6 py-3 text-[#dae2fd]/50 hover:text-[#dae2fd] hover:bg-[#171f33] transition-all group" href="#">
+<span class="material-symbols-outlined mr-3">settings</span>
+<span class="text-sm font-label tracking-[0.1em] uppercase">Settings</span>
+</a>
+</nav>
+<div class="px-6 mt-auto">
+<div class="p-4 bg-surface-container-lowest rounded-xl flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-xs font-bold text-white">JD</div>
+<div class="overflow-hidden">
+<p class="text-sm font-medium truncate">Admin User</p>
+<p class="text-[10px] text-on-surface-variant truncate">vending-machine-prod</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="ml-64 p-8 min-h-screen">
+<!-- Top Navigation Bar -->
+<header class="flex justify-between items-center h-16 w-full mb-10">
+<div>
+<h2 class="text-3xl font-extrabold tracking-tight text-[#dae2fd] headline">Cloud Spend Overview</h2>
+<p class="text-on-surface-variant text-sm mt-1">Monitor and optimize your infrastructure costs</p>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative">
+<button class="flex items-center gap-2 bg-surface-container-low px-4 py-2 rounded-lg hover:bg-surface-container-high transition-colors text-sm font-medium outline-variant/20 outline outline-1">
+<span class="material-symbols-outlined text-sm">calendar_today</span>
+                        This Month
+                        <span class="material-symbols-outlined text-sm">expand_more</span>
+</button>
+</div>
+<button class="p-2 text-[#dae2fd]/60 hover:text-[#a3c9ff] transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="w-10 h-10 rounded-full bg-surface-container-high overflow-hidden border border-outline-variant/30">
+<img alt="User avatar" data-alt="Close up portrait of a professional system administrator in a futuristic minimalist digital office environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDspNiFKPKbWKhBMKYqV6OZMcECRNH0oO1O-xKKJ2he0V1tBkaenl7kLR-Rl2ZLnZqRzR2ONBEOZbVM7l5SX4InXZORhypaaRoH_TuXG4_gYdoH8UL-NzK02yUv90r667XTKsUk4-qpsffM3CZzy2peAMX98jIpEMDIw8xJXgxHy0q17hLDvumwTRtz9RbosGhCTXN3PSFrtes6wUHetQRIrLw4VlWjdOFTblpZdrlhVNOvWqqarpmvx-lMTDMzu7keJpBaXllBEw"/>
+</div>
+</div>
+</header>
+<!-- KPI Cards Section -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+<!-- Spend Card -->
+<div class="bg-surface-container-low p-6 rounded-xl border-l-4 border-primary shadow-sm hover:translate-y-[-4px] transition-transform duration-300">
+<div class="flex justify-between items-start mb-4">
+<p class="text-xs font-label uppercase tracking-widest text-on-surface-variant">Current Month Spend</p>
+<span class="material-symbols-outlined text-primary">payments</span>
+</div>
+<div class="flex items-baseline gap-3">
+<h3 class="text-4xl font-bold headline">$142.50</h3>
+<div class="flex items-center text-emerald-400 text-sm font-bold">
+<span class="material-symbols-outlined text-sm">trending_up</span>
+                        2.4%
+                    </div>
+</div>
+<div class="mt-4 h-1 w-full bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary" style="width: 68%;"></div>
+</div>
+</div>
+<!-- Projection Card -->
+<div class="bg-surface-container-low p-6 rounded-xl border-l-4 border-tertiary shadow-sm hover:translate-y-[-4px] transition-transform duration-300">
+<div class="flex justify-between items-start mb-4">
+<p class="text-xs font-label uppercase tracking-widest text-on-surface-variant">Projected End of Month</p>
+<span class="material-symbols-outlined text-tertiary">analytics</span>
+</div>
+<h3 class="text-4xl font-bold headline">$210.00</h3>
+<p class="text-xs text-on-surface-variant mt-4 flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">info</span>
+                    Based on current run-rate
+                </p>
+</div>
+<!-- Top Spender Card -->
+<div class="bg-surface-container-low p-6 rounded-xl border-l-4 border-primary-container shadow-sm hover:translate-y-[-4px] transition-transform duration-300">
+<div class="flex justify-between items-start mb-4">
+<p class="text-xs font-label uppercase tracking-widest text-on-surface-variant">Biggest Spender</p>
+<span class="material-symbols-outlined text-primary-container">database</span>
+</div>
+<h3 class="text-2xl font-bold headline truncate text-primary">PostgreSQL Database</h3>
+<p class="text-sm font-medium text-on-surface-variant mt-1">Project-X-2024</p>
+</div>
+</div>
+<!-- Main Chart Section -->
+<div class="bg-surface-container-low rounded-xl p-8 mb-8">
+<div class="flex justify-between items-center mb-8">
+<div>
+<h3 class="text-xl font-bold headline">Daily Cost (Last 30 Days)</h3>
+<p class="text-on-surface-variant text-sm">Aggregated cloud consumption across all providers</p>
+</div>
+<div class="flex gap-2">
+<div class="flex items-center gap-2 px-3 py-1 bg-surface-container rounded-full text-xs font-medium">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+                        Compute
+                    </div>
+<div class="flex items-center gap-2 px-3 py-1 bg-surface-container rounded-full text-xs font-medium">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+                        Storage
+                    </div>
+</div>
+</div>
+<!-- SVG Chart Placeholder -->
+<div class="w-full h-[300px] relative">
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 1000 300">
+<defs>
+<lineargradient id="chartGradient" x1="0" x2="0" y1="0" y2="1">
+<stop offset="5%" stop-color="#a3c9ff" stop-opacity="0.3"></stop>
+<stop offset="95%" stop-color="#0078d4" stop-opacity="0"></stop>
+</lineargradient>
+</defs>
+<!-- Grid Lines -->
+<line stroke="#404752" stroke-opacity="0.1" x1="0" x2="1000" y1="50" y2="50"></line>
+<line stroke="#404752" stroke-opacity="0.1" x1="0" x2="1000" y1="150" y2="150"></line>
+<line stroke="#404752" stroke-opacity="0.1" x1="0" x2="1000" y1="250" y2="250"></line>
+<!-- Area Fill -->
+<path class="chart-gradient" d="M0,250 Q100,220 200,230 T400,180 T600,200 T800,140 T1000,100 L1000,300 L0,300 Z"></path>
+<!-- Line -->
+<path d="M0,250 Q100,220 200,230 T400,180 T600,200 T800,140 T1000,100" fill="none" stroke="#a3c9ff" stroke-linecap="round" stroke-width="3"></path>
+</svg>
+<!-- X-Axis Labels -->
+<div class="flex justify-between mt-4 text-[10px] font-label uppercase tracking-widest text-on-surface-variant px-2">
+<span>Oct 01</span>
+<span>Oct 07</span>
+<span>Oct 14</span>
+<span>Oct 21</span>
+<span>Oct 28</span>
+<span>Today</span>
+</div>
+</div>
+</div>
+<!-- Table Section -->
+<div class="bg-surface-container-low rounded-xl overflow-hidden shadow-xl">
+<div class="p-6">
+<h3 class="text-xl font-bold headline">Cost Breakdown</h3>
+<p class="text-on-surface-variant text-sm">Granular resource spending analysis</p>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container text-[10px] font-label uppercase tracking-[0.2em] text-on-surface-variant">
+<th class="px-6 py-4 font-semibold">Resource Name</th>
+<th class="px-6 py-4 font-semibold">Type</th>
+<th class="px-6 py-4 font-semibold">Daily Run Rate</th>
+<th class="px-6 py-4 font-semibold">Total Monthly Cost</th>
+<th class="px-6 py-4 font-semibold text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/5">
+<tr class="hover:bg-surface-container-high/40 transition-colors">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-[#171f33] flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-sm">storage</span>
+</div>
+<span class="font-medium">Data-Lake-Alpha</span>
+</div>
+</td>
+<td class="px-6 py-5 text-on-surface-variant text-sm">PostgreSQL</td>
+<td class="px-6 py-5 font-mono text-sm">$4.20</td>
+<td class="px-6 py-5">
+<span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-bold">$126.00</span>
+</td>
+<td class="px-6 py-5 text-right">
+<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined">more_vert</span></button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-high/40 transition-colors">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-[#171f33] flex items-center justify-center">
+<span class="material-symbols-outlined text-tertiary text-sm">language</span>
+</div>
+<span class="font-medium">Web-Portal-Next</span>
+</div>
+</td>
+<td class="px-6 py-5 text-on-surface-variant text-sm">Azure Web App</td>
+<td class="px-6 py-5 font-mono text-sm">$1.50</td>
+<td class="px-6 py-5">
+<span class="bg-tertiary/10 text-tertiary px-3 py-1 rounded-full text-sm font-bold">$45.00</span>
+</td>
+<td class="px-6 py-5 text-right">
+<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined">more_vert</span></button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-high/40 transition-colors">
+<td class="px-6 py-5">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-[#171f33] flex items-center justify-center">
+<span class="material-symbols-outlined text-primary-container text-sm">dns</span>
+</div>
+<span class="font-medium">Legacy-Sync-Service</span>
+</div>
+</td>
+<td class="px-6 py-5 text-on-surface-variant text-sm">VM Instance</td>
+<td class="px-6 py-5 font-mono text-sm">$0.80</td>
+<td class="px-6 py-5">
+<span class="bg-primary-container/10 text-primary-container px-3 py-1 rounded-full text-sm font-bold">$24.00</span>
+</td>
+<td class="px-6 py-5 text-right">
+<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined">more_vert</span></button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-4 bg-surface-container-highest/20 border-t border-outline-variant/5 text-center">
+<button class="text-primary text-xs font-label uppercase tracking-widest hover:underline">View Detailed Resource Inventory</button>
+</div>
+</div>
+</main>
+<!-- Contextual Floating Action Button -->
+<button class="fixed bottom-8 right-8 w-14 h-14 primary-gradient-bg rounded-full shadow-[0_0_20px_rgba(0,120,212,0.4)] flex items-center justify-center text-on-primary-container hover:scale-110 transition-transform active:scale-95 group">
+<span class="material-symbols-outlined">add</span>
+<!-- Tooltip -->
+<span class="absolute right-16 bg-surface-container-highest px-3 py-1 rounded text-xs whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">Provision New Service</span>
+</button>
+</body></html>

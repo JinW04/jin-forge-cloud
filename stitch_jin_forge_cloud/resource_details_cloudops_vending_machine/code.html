@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-surface": "#dae2fd",
+                    "tertiary-container": "#007eb4",
+                    "tertiary-fixed": "#c9e6ff",
+                    "on-secondary-container": "#aeb9d0",
+                    "on-secondary-fixed": "#111c2d",
+                    "on-error-container": "#ffdad6",
+                    "secondary-fixed-dim": "#bcc7de",
+                    "secondary": "#bcc7de",
+                    "on-tertiary-fixed-variant": "#004c6e",
+                    "surface-bright": "#31394d",
+                    "on-secondary": "#263143",
+                    "surface-tint": "#a3c9ff",
+                    "surface-container": "#171f33",
+                    "primary": "#a3c9ff",
+                    "error": "#ffb4ab",
+                    "secondary-fixed": "#d8e3fb",
+                    "error-container": "#93000a",
+                    "on-primary": "#00315c",
+                    "surface-container-low": "#131b2e",
+                    "on-surface-variant": "#c0c7d4",
+                    "on-error": "#690005",
+                    "on-secondary-fixed-variant": "#3c475a",
+                    "primary-fixed-dim": "#a3c9ff",
+                    "outline": "#8a919e",
+                    "surface-container-lowest": "#060e20",
+                    "on-background": "#dae2fd",
+                    "inverse-primary": "#0060ab",
+                    "inverse-on-surface": "#283044",
+                    "background": "#0b1326",
+                    "tertiary-fixed-dim": "#89ceff",
+                    "on-primary-fixed-variant": "#004883",
+                    "primary-fixed": "#d3e3ff",
+                    "tertiary": "#89ceff",
+                    "on-tertiary-fixed": "#001e2f",
+                    "on-tertiary": "#00344d",
+                    "on-primary-container": "#ffffff",
+                    "surface-container-high": "#222a3d",
+                    "surface-container-highest": "#2d3449",
+                    "on-tertiary-container": "#ffffff",
+                    "outline-variant": "#404752",
+                    "surface-dim": "#0b1326",
+                    "secondary-container": "#3e495d",
+                    "inverse-surface": "#dae2fd",
+                    "surface": "#0b1326",
+                    "primary-container": "#0078d4",
+                    "on-primary-fixed": "#001c39",
+                    "surface-variant": "#2d3449"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(45, 52, 73, 0.6);
+            backdrop-filter: blur(20px);
+        }
+        .vending-slot {
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+        .primary-gradient {
+            background: linear-gradient(135deg, #a3c9ff 0%, #0078d4 100%);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body min-h-screen">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#0b1326] shadow-[0_40px_60px_rgba(218,226,253,0.08)] flex justify-between items-center px-8 h-16">
+<div class="flex items-center gap-8">
+<span class="text-lg font-bold tracking-widest uppercase text-slate-100 font-headline">CloudOps Vending Machine</span>
+<nav class="hidden md:flex gap-6">
+<a class="text-slate-400 font-['Inter'] text-sm tracking-wide hover:text-slate-100 transition-colors" href="#">Dashboard</a>
+<a class="text-[#a3c9ff] border-b-2 border-[#a3c9ff] font-['Inter'] text-sm tracking-wide font-bold" href="#">Resources</a>
+<a class="text-slate-400 font-['Inter'] text-sm tracking-wide hover:text-slate-100 transition-colors" href="#">Deployment</a>
+<a class="text-slate-400 font-['Inter'] text-sm tracking-wide hover:text-slate-100 transition-colors" href="#">Analytics</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-400 hover:bg-[#222a3d] rounded-full transition-colors active:scale-95 duration-200">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 text-slate-400 hover:bg-[#222a3d] rounded-full transition-colors active:scale-95 duration-200">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant/30">
+<img alt="User profile" data-alt="close-up portrait of a professional software engineer with a modern workspace background soft bokeh lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBF5Qm3ETzOE3_Hm0PCmFxSsN1Geey0INBjXBRXrXAT4G28bHHdszz58tbrSIddwb1V2V3cl5OgrcWpNAhzRzK4jqtQNz0WCYBtzy8UoonFcA4jxpH6i81THl28zEHueEVZSGG-xnEkpt7VDbIHHzuvcMUYj6ESQQPbkBFM7VUhKueGgy-3IASKgiCCC_Jo8ek5A6-MSZBJaGDOkYb8-FDvpzBrnmDaz3JRebvkJij6s0ste1jGY7Y5L352Py7-khSsgrsXLwpNfA"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar (Hidden on small screens) -->
+<aside class="fixed left-0 top-16 h-[calc(100vh-64px)] w-64 bg-[#131b2e] hidden lg:flex flex-col py-6 px-4">
+<div class="mb-8 px-2">
+<div class="flex items-center gap-3 mb-1">
+<span class="text-xl font-black text-slate-50 font-headline">Azure Horizon</span>
+</div>
+<span class="text-[10px] uppercase tracking-[0.2em] text-slate-500 font-bold">Ethereal Engine v2</span>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-slate-500 hover:text-slate-100 hover:bg-[#171f33] rounded-xl transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-['Inter'] text-sm tracking-wide">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-[#a3c9ff] font-bold bg-[#171f33] rounded-xl transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="cloud">cloud</span>
+<span class="font-['Inter'] text-sm tracking-wide">Resources</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-500 hover:text-slate-100 hover:bg-[#171f33] rounded-xl transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="rocket_launch">rocket_launch</span>
+<span class="font-['Inter'] text-sm tracking-wide">Deployment</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-500 hover:text-slate-100 hover:bg-[#171f33] rounded-xl transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="monitoring">monitoring</span>
+<span class="font-['Inter'] text-sm tracking-wide">Analytics</span>
+</a>
+</nav>
+<div class="mt-auto pt-6 space-y-1 border-t border-outline-variant/10">
+<a class="flex items-center gap-3 px-3 py-2 text-slate-500 hover:text-slate-100 hover:bg-[#171f33] rounded-xl transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span class="font-['Inter'] text-sm tracking-wide">Support</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-500 hover:text-slate-100 hover:bg-[#171f33] rounded-xl transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="terminal">terminal</span>
+<span class="font-['Inter'] text-sm tracking-wide">Logs</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="lg:ml-64 pt-24 pb-12 px-8 min-h-screen">
+<div class="max-w-6xl mx-auto">
+<!-- Header Section -->
+<div class="mb-10">
+<button class="flex items-center gap-2 text-primary hover:text-primary-fixed-dim transition-colors mb-6 group">
+<span class="material-symbols-outlined text-sm" data-icon="arrow_back">arrow_back</span>
+<span class="text-sm font-medium">&lt; Back to My Resources</span>
+</button>
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div>
+<h1 class="text-4xl md:text-5xl font-headline font-extrabold tracking-tight text-white mb-2 italic">Data-Lake-Alpha</h1>
+<div class="flex items-center gap-4">
+<span class="flex items-center gap-1.5 bg-[#004c6e]/30 text-[#89ceff] px-3 py-1 rounded-full text-xs font-bold tracking-widest uppercase border border-[#004c6e]/50">
+<span class="material-symbols-outlined text-[14px]" data-icon="database">database</span>
+                                PostgreSQL v14.5
+                            </span>
+<span class="flex items-center gap-1.5 bg-green-500/10 text-green-400 px-3 py-1 rounded-full text-xs font-bold tracking-widest uppercase border border-green-500/20">
+<span class="w-2 h-2 rounded-full bg-green-400 shadow-[0_0_8px_rgba(74,222,128,0.6)]"></span>
+                                Running
+                            </span>
+</div>
+</div>
+<div class="flex gap-3">
+<button class="px-6 py-2.5 rounded-xl border border-outline-variant/30 hover:bg-surface-container-high transition-colors font-medium text-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-lg" data-icon="restart_alt">restart_alt</span>
+                            Reboot
+                        </button>
+<button class="primary-gradient px-6 py-2.5 rounded-xl text-on-primary-container font-bold text-sm shadow-[0_0_15px_rgba(0,120,212,0.4)] hover:shadow-[0_0_25px_rgba(0,120,212,0.6)] transition-all active:scale-95 flex items-center gap-2">
+<span class="material-symbols-outlined text-lg" data-icon="edit">edit</span>
+                            Modify Config
+                        </button>
+</div>
+</div>
+</div>
+<!-- Content Grid (Bento Style) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Connection Details Card (Large) -->
+<section class="lg:col-span-8 bg-surface-container-low rounded-[2rem] p-8 relative overflow-hidden border border-outline-variant/5">
+<div class="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
+<span class="material-symbols-outlined text-[120px]" data-icon="hub">hub</span>
+</div>
+<h2 class="text-xl font-headline font-bold text-white mb-8 flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" data-icon="settings_ethernet">settings_ethernet</span>
+                        Connection Details
+                    </h2>
+<div class="space-y-6">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Host URL -->
+<div class="space-y-2">
+<label class="block text-[10px] uppercase tracking-[0.15em] text-slate-500 font-bold ml-1">Host URL</label>
+<div class="vending-slot bg-surface-container-lowest p-4 rounded-xl flex items-center justify-between group">
+<code class="text-on-surface font-mono text-sm">pg-alpha.internal.cloudops.net</code>
+<button class="text-slate-500 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg" data-icon="content_copy">content_copy</span>
+</button>
+</div>
+</div>
+<!-- Port -->
+<div class="space-y-2">
+<label class="block text-[10px] uppercase tracking-[0.15em] text-slate-500 font-bold ml-1">Port</label>
+<div class="vending-slot bg-surface-container-lowest p-4 rounded-xl flex items-center justify-between">
+<code class="text-on-surface font-mono text-sm">5432</code>
+<button class="text-slate-500 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg" data-icon="content_copy">content_copy</span>
+</button>
+</div>
+</div>
+</div>
+<!-- GitHub Repo -->
+<div class="space-y-2">
+<label class="block text-[10px] uppercase tracking-[0.15em] text-slate-500 font-bold ml-1">GitHub Repo (Infrastructure as Code)</label>
+<div class="vending-slot bg-surface-container-lowest p-4 rounded-xl flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-slate-400" data-icon="folder">folder</span>
+<span class="text-on-surface text-sm">org/data-lake-alpha</span>
+</div>
+<button class="text-slate-500 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg" data-icon="open_in_new">open_in_new</span>
+</button>
+</div>
+</div>
+<!-- Password -->
+<div class="space-y-2">
+<label class="block text-[10px] uppercase tracking-[0.15em] text-slate-500 font-bold ml-1">Database Password</label>
+<div class="vending-slot bg-surface-container-lowest p-4 rounded-xl flex items-center justify-between border-l-2 border-primary/40">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" data-icon="lock">lock</span>
+<span class="text-on-surface tracking-widest">••••••••••••••••</span>
+</div>
+<div class="flex gap-3">
+<button class="text-slate-500 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg" data-icon="visibility">visibility</span>
+</button>
+<button class="text-slate-500 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg" data-icon="content_copy">content_copy</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Access & IAM Card (Medium) -->
+<section class="lg:col-span-4 bg-surface-container rounded-[2rem] p-8 border border-outline-variant/5">
+<h2 class="text-xl font-headline font-bold text-white mb-6 flex items-center gap-3">
+<span class="material-symbols-outlined text-tertiary" data-icon="group">group</span>
+                        Access &amp; IAM
+                    </h2>
+<div class="space-y-4">
+<!-- User 1 -->
+<div class="flex items-center justify-between p-3 rounded-2xl hover:bg-surface-container-high transition-colors group">
+<div class="flex items-center gap-3">
+<img alt="Alex Johnson" class="w-10 h-10 rounded-full" data-alt="professional corporate headshot of a smiling man with glasses in a modern minimalist office environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_Z5EPb41QwkGJ_4OFTea3G7TF3UXI_vdEL065c_35wjIAsjkpJnJHZg3f9AgKdSK-0KqhodXNPRDgHJtHR-i8dDEJ2ey_pnM6jr1RYXXA1vfl9VqiGzvR41pDquOU4M4XNnTeIoQvF2Bl-PIGt_msKc4hkiBlCGdQkp_6fVEbPRomNolrIAnHJ7624tVANFaTr1NNKYBVefnIzrUl2nszxJCFnWGEX96Wq0aDpGWRt9ffTCBEypMG7Pd2sqlMXZN8WIOFSjIfGQ"/>
+<div>
+<div class="text-sm font-semibold text-slate-100">Alex Johnson</div>
+<div class="text-[10px] uppercase tracking-wider text-slate-500">Admin</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-slate-600 opacity-0 group-hover:opacity-100 transition-opacity" data-icon="more_vert">more_vert</span>
+</div>
+<!-- User 2 -->
+<div class="flex items-center justify-between p-3 rounded-2xl hover:bg-surface-container-high transition-colors group">
+<div class="flex items-center gap-3">
+<img alt="Sarah Chen" class="w-10 h-10 rounded-full" data-alt="high-quality portrait of a focused woman software developer in a cozy home office setup with soft lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbgnKguXJ-uvWnQoG5O94bp2UOD6L_-LGGNVlIkTj9dzo44Vzyqn7FpHpeKVtoNWDnxC5ko1td28XWhGQ3WER3BI4WlYPF_7Nj25cw70KHFXfjNGof64cVGAVelgqjEeuOhDVHtfHAXbjncb0_-u6SoXgDC8wuOC6Ho779WhbSVcprXlvs39p9sYNHpzcIqFPZeeBX3nXbcDXdV2dHBAthJHO_uKa_y0IFIxnUIZFuIivXY-x68E1xH-wfHxp2Fhyfqzm92TPuBQ"/>
+<div>
+<div class="text-sm font-semibold text-slate-100">Sarah Chen</div>
+<div class="text-[10px] uppercase tracking-wider text-slate-500">Developer</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-slate-600 opacity-0 group-hover:opacity-100 transition-opacity" data-icon="more_vert">more_vert</span>
+</div>
+<!-- User 3 -->
+<div class="flex items-center justify-between p-3 rounded-2xl hover:bg-surface-container-high transition-colors group">
+<div class="flex items-center gap-3">
+<img alt="Marcus Wright" class="w-10 h-10 rounded-full" data-alt="close-up portrait of a man with a beard and creative expression in a brightly lit studio setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD75ZY23lBvBSNaTwtvek1VQQQj9k5uiTYln03u1U65AzI3KKTdfoN-3tjMRguhvJU0kboDhZ37cCArA9U-j_fP4ARZvJWvVO-7bQZe2BxLInUy6OR9tEJ0pWZwbaCliIPkhsF0I8o5GlnVjPoj7bYNwZDTif2vXMMp68Q7ZHy-wzlwE2A-ZX6dWvxB-2vMZJVlh8vvKOatnguCr9MEUj3M4TJT5xZQBixnGehGGArSDV30pAOIcutRvIV2U-FUYlpgxMdzozg08g"/>
+<div>
+<div class="text-sm font-semibold text-slate-100">Marcus Wright</div>
+<div class="text-[10px] uppercase tracking-wider text-slate-500">Analyst</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-slate-600 opacity-0 group-hover:opacity-100 transition-opacity" data-icon="more_vert">more_vert</span>
+</div>
+</div>
+<button class="w-full mt-6 py-3 rounded-xl border border-dashed border-outline-variant/40 text-slate-400 hover:text-white hover:border-primary/60 transition-all text-sm font-medium">
+                        + Add Teammate
+                    </button>
+</section>
+<!-- Resource Metrics (Supplementary Component) -->
+<section class="lg:col-span-12 glass-panel rounded-[2rem] p-8 border border-white/5">
+<div class="flex flex-col md:flex-row items-center justify-between gap-8">
+<div class="flex gap-12">
+<div>
+<span class="block text-[10px] uppercase tracking-[0.2em] text-slate-500 font-bold mb-1">CPU Usage</span>
+<div class="flex items-end gap-2">
+<span class="text-3xl font-headline font-extrabold text-white">12%</span>
+<span class="text-green-400 text-xs mb-1 font-bold">Optimal</span>
+</div>
+</div>
+<div>
+<span class="block text-[10px] uppercase tracking-[0.2em] text-slate-500 font-bold mb-1">Memory Usage</span>
+<div class="flex items-end gap-2">
+<span class="text-3xl font-headline font-extrabold text-white">4.2<span class="text-lg font-medium opacity-50">GB</span></span>
+<span class="text-slate-400 text-xs mb-1">of 8GB</span>
+</div>
+</div>
+<div>
+<span class="block text-[10px] uppercase tracking-[0.2em] text-slate-500 font-bold mb-1">IOPS</span>
+<div class="flex items-end gap-2">
+<span class="text-3xl font-headline font-extrabold text-white">450</span>
+<span class="text-slate-400 text-xs mb-1">Baseline</span>
+</div>
+</div>
+</div>
+<div class="w-full md:w-64 h-16 flex items-end gap-1 px-4">
+<!-- Simple SVG Sparkline visual -->
+<div class="flex-1 bg-primary/20 h-4 rounded-t-sm"></div>
+<div class="flex-1 bg-primary/20 h-6 rounded-t-sm"></div>
+<div class="flex-1 bg-primary/20 h-8 rounded-t-sm"></div>
+<div class="flex-1 bg-primary/40 h-10 rounded-t-sm"></div>
+<div class="flex-1 bg-primary/60 h-14 rounded-t-sm"></div>
+<div class="flex-1 bg-primary/40 h-8 rounded-t-sm"></div>
+<div class="flex-1 bg-primary/20 h-6 rounded-t-sm"></div>
+<div class="flex-1 bg-primary/30 h-10 rounded-t-sm"></div>
+</div>
+</div>
+</section>
+<!-- Danger Zone -->
+<section class="lg:col-span-12 mt-8 rounded-[2rem] p-8 border-b-2 border-error-container bg-surface-container-low/50">
+<div class="flex flex-col md:flex-row items-center justify-between gap-6">
+<div class="flex items-start gap-4">
+<div class="w-12 h-12 rounded-full bg-error/10 flex items-center justify-center text-error flex-shrink-0">
+<span class="material-symbols-outlined" data-icon="warning">warning</span>
+</div>
+<div>
+<h3 class="text-lg font-bold text-white mb-1">Danger Zone</h3>
+<p class="text-slate-400 text-sm max-w-xl">
+                                    Destroying this resource is permanent and deletes all associated data, backups, and network configurations. This action cannot be undone.
+                                </p>
+</div>
+</div>
+<button class="bg-error-container hover:bg-error transition-colors text-white px-8 py-3 rounded-xl font-bold tracking-tight active:scale-95 duration-200">
+                            Destroy Resource
+                        </button>
+</div>
+</section>
+</div>
+</div>
+</main>
+</body></html>
