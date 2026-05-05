@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import Resources from './Resources'
 import Networks from './Networks'
+import Security from './Security'
+import Logs from './Logs'
 
 const NAV_LINKS = [
   { icon: 'dashboard',   label: 'Dashboard' },
@@ -17,9 +19,9 @@ const CAPABILITIES = [
 ]
 
 const RECENT_REQUESTS = [
-  { name: 'Data-Lake-Alpha',    type: 'PostgreSQL',    status: 'ACTIVE',    date: 'Oct 24, 2023' },
-  { name: 'Web-Portal-Next',    type: 'Azure Web App', status: 'DEPLOYING', date: 'Oct 25, 2023' },
-  { name: 'Legacy-Sync-Service',type: 'VM Instance',   status: 'FAILED',    date: 'Oct 22, 2023' },
+  { name: 'Data-Lake-Alpha',    type: 'PostgreSQL',    status: 'ACTIVE',    date: 'Oct 24, 2026' },
+  { name: 'Web-Portal-Next',    type: 'Azure Web App', status: 'DEPLOYING', date: 'Oct 25, 2026' },
+  { name: 'Legacy-Sync-Service',type: 'VM Instance',   status: 'FAILED',    date: 'Oct 22, 2026' },
 ]
 
 const STATUS_STYLES = {
@@ -62,7 +64,7 @@ function DashboardContent() {
                 </label>
                 <input
                   className="w-full bg-surface-container-lowest border border-outline-variant/20 focus:border-primary focus:ring-1 focus:ring-primary rounded-lg px-4 py-3 text-on-surface transition-all outline-none"
-                  placeholder="e.g. Project-X-2024"
+                  placeholder="e.g. Project-X-2026"
                   type="text"
                 />
               </div>
@@ -242,6 +244,8 @@ export default function Dashboard() {
     if (activeTab === 'Dashboard') return <DashboardContent />
     if (activeTab === 'Resources') return <Resources />
     if (activeTab === 'Networks')  return <Networks />
+    if (activeTab === 'Security')  return <Security />
+    if (activeTab === 'Logs')      return <Logs />
     return <ComingSoon label={activeTab} />
   }
 
@@ -342,7 +346,7 @@ export default function Dashboard() {
         <footer className="mt-auto py-8 px-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-2">
             <span className="material-symbols-outlined text-primary-container text-xl">rocket_launch</span>
-            <span className="text-sm font-bold text-on-surface/40 tracking-tighter">JIN-FORGE CLOUD © 2024</span>
+            <span className="text-sm font-bold text-on-surface/40 tracking-tighter">JIN-FORGE CLOUD © 2026</span>
           </div>
           <div className="flex gap-8">
             {['Privacy', 'Compliance', 'API Docs'].map((link) => (
