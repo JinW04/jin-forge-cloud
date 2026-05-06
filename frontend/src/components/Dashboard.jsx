@@ -3,6 +3,7 @@ import Resources from './Resources'
 import Networks from './Networks'
 import Security from './Security'
 import Logs from './Logs'
+import ProvisionModal from './ProvisionModal'
 
 const NAV_LINKS = [
   { icon: 'dashboard',   label: 'Dashboard' },
@@ -36,7 +37,7 @@ const DOT_STYLES = {
   FAILED:    'bg-error',
 }
 
-function DashboardContent() {
+function DashboardContent({ requests, onOpenModal }) {
   return (
     <div className="p-8 max-w-7xl mx-auto w-full">
       <div className="mb-10">
@@ -120,7 +121,7 @@ function DashboardContent() {
               />
             </div>
 
-            <button className="w-full py-4 bg-gradient-to-r from-primary to-primary-container text-on-primary-container font-black text-sm uppercase tracking-[0.2em] rounded-xl hover:shadow-[0_0_20px_rgba(163,201,255,0.3)] transition-all flex items-center justify-center gap-3 active:scale-95 cursor-pointer">
+            <button onClick={onOpenModal} className="w-full py-4 bg-gradient-to-r from-primary to-primary-container text-on-primary-container font-black text-sm uppercase tracking-[0.2em] rounded-xl hover:shadow-[0_0_20px_rgba(163,201,255,0.3)] transition-all flex items-center justify-center gap-3 active:scale-95 cursor-pointer">
               <span className="material-symbols-outlined">rocket_launch</span>
               PROVISION RESOURCE
             </button>
@@ -145,7 +146,7 @@ function DashboardContent() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-white/5">
-                  {RECENT_REQUESTS.map(({ name, type, status, date }) => (
+                  {requests.map(({ name, type, status, date }) => (
                     <tr key={name} className="hover:bg-white/5 transition-colors">
                       <td className="px-6 py-4 font-medium text-sm">{name}</td>
                       <td className="px-6 py-4 text-sm text-on-surface-variant">{type}</td>
@@ -238,10 +239,17 @@ function ComingSoon({ label }) {
 }
 
 export default function Dashboard() {
-  const [activeTab, setActiveTab] = useState('Dashboard')
+  const [activeTab,      setActiveTab]      = useState('Dashboard')
+  const [showModal,      setShowModal]      = useState(false)
+  const [recentRequests, setRecentRequests] = useState(RECENT_REQUESTS)
+
+  function handleDeploy(newResource) {
+    setRecentRequests(prev => [newResource, ...prev])
+    setActiveTab('Dashboard')
+  }
 
   function renderContent() {
-    if (activeTab === 'Dashboard') return <DashboardContent />
+    if (activeTab === 'Dashboard') return <DashboardContent requests={recentRequests} onOpenModal={() => setShowModal(true)} />
     if (activeTab === 'Resources') return <Resources />
     if (activeTab === 'Networks')  return <Networks />
     if (activeTab === 'Security')  return <Security />
@@ -291,7 +299,7 @@ export default function Dashboard() {
         </nav>
 
         <div className="mt-auto px-4 space-y-4">
-          <button className="w-full py-3 bg-primary-container text-on-primary-container rounded-xl font-bold text-xs uppercase tracking-widest flex items-center justify-center gap-2 hover:scale-[0.98] transition-transform cursor-pointer">
+          <button onClick={() => setShowModal(true)} className="w-full py-3 bg-primary-container text-on-primary-container rounded-xl font-bold text-xs uppercase tracking-widest flex items-center justify-center gap-2 hover:scale-[0.98] transition-transform cursor-pointer">
             <span className="material-symbols-outlined text-lg">add</span>
             New Provision
           </button>
@@ -357,6 +365,13 @@ export default function Dashboard() {
           </div>
         </footer>
       </main>
+
+      {showModal && (
+        <ProvisionModal
+          onClose={() => setShowModal(false)}
+          onDeploy={handleDeploy}
+        />
+      )}
     </div>
   )
 }
