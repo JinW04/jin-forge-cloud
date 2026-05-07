@@ -1,17 +1,5 @@
 import { useState } from 'react'
-
-const RESOURCES = [
-  { name: 'web-portal-prod',     type: 'Azure Web App',   icon: 'cloud',       region: 'East US',       status: 'Running',   costHr: 0.12 },
-  { name: 'data-lake-alpha',     type: 'Storage Account', icon: 'folder_data', region: 'West Europe',   status: 'Running',   costHr: 0.03 },
-  { name: 'db-postgres-prod',    type: 'Database',        icon: 'database',    region: 'East US',       status: 'Running',   costHr: 0.25 },
-  { name: 'vm-build-agent-01',   type: 'VM',              icon: 'computer',    region: 'Southeast Asia',status: 'Stopped',   costHr: 0.08 },
-  { name: 'api-gateway-dev',     type: 'Azure Web App',   icon: 'cloud',       region: 'West US',       status: 'Running',   costHr: 0.06 },
-  { name: 'legacy-sync-svc',     type: 'VM',              icon: 'computer',    region: 'East US',       status: 'Failed',    costHr: 0.18 },
-  { name: 'analytics-db',        type: 'Database',        icon: 'database',    region: 'North Europe',  status: 'Running',   costHr: 0.31 },
-  { name: 'backup-storage',      type: 'Storage Account', icon: 'folder_data', region: 'West Europe',   status: 'Running',   costHr: 0.02 },
-  { name: 'ml-training-vm',      type: 'VM',              icon: 'computer',    region: 'East US 2',     status: 'Stopped',   costHr: 1.20 },
-  { name: 'web-portal-staging',  type: 'Azure Web App',   icon: 'cloud',       region: 'East US',       status: 'Deploying', costHr: 0.09 },
-]
+import { useResources } from '../context/ResourceContext'
 
 const STATUS_STYLES = {
   Running:   'bg-emerald-500/10 text-emerald-400 border-emerald-500/20 shadow-[0_0_8px_rgba(52,211,153,0.15)]',
@@ -28,14 +16,15 @@ const DOT_STYLES = {
 }
 
 export default function Resources() {
+  const { resources } = useResources()
   const [search, setSearch] = useState('')
 
-  const filtered = RESOURCES.filter(({ name, type, region, status }) =>
+  const filtered = resources.filter(({ name, type, region, status }) =>
     [name, type, region, status].some(v => v.toLowerCase().includes(search.toLowerCase()))
   )
 
-  const runningCount = RESOURCES.filter(r => r.status === 'Running').length
-  const totalCostHr  = RESOURCES.reduce((sum, r) => sum + r.costHr, 0)
+  const runningCount = resources.filter(r => r.status === 'Running').length
+  const totalCostHr  = resources.reduce((sum, r) => sum + r.costHr, 0)
 
   return (
     <div className="p-8 max-w-7xl mx-auto w-full">
@@ -53,7 +42,7 @@ export default function Resources() {
       <div className="grid grid-cols-3 gap-4 mb-8">
         <div className="bg-surface-container-low rounded-xl px-6 py-5 border border-outline-variant/10">
           <p className="text-[10px] uppercase tracking-[0.2em] font-bold text-on-surface-variant mb-1">Total Resources</p>
-          <p className="text-3xl font-black text-on-surface">{RESOURCES.length}</p>
+          <p className="text-3xl font-black text-on-surface">{resources.length}</p>
         </div>
         <div className="bg-surface-container-low rounded-xl px-6 py-5 border border-outline-variant/10">
           <p className="text-[10px] uppercase tracking-[0.2em] font-bold text-on-surface-variant mb-1">Running</p>
@@ -61,9 +50,7 @@ export default function Resources() {
         </div>
         <div className="bg-surface-container-low rounded-xl px-6 py-5 border border-outline-variant/10">
           <p className="text-[10px] uppercase tracking-[0.2em] font-bold text-on-surface-variant mb-1">Est. Cost / Hr</p>
-          <p className="text-3xl font-black text-on-surface">
-            ${totalCostHr.toFixed(2)}
-          </p>
+          <p className="text-3xl font-black text-on-surface">${totalCostHr.toFixed(2)}</p>
         </div>
       </div>
 
@@ -125,8 +112,8 @@ export default function Resources() {
                     </div>
                   </td>
                   <td className="px-6 py-4">
-                    <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide border ${STATUS_STYLES[status]}`}>
-                      <span className={`w-1.5 h-1.5 rounded-full ${DOT_STYLES[status]}`} />
+                    <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide border ${STATUS_STYLES[status] ?? STATUS_STYLES.Deploying}`}>
+                      <span className={`w-1.5 h-1.5 rounded-full ${DOT_STYLES[status] ?? DOT_STYLES.Deploying}`} />
                       {status}
                     </span>
                   </td>
@@ -143,7 +130,7 @@ export default function Resources() {
 
       {filtered.length > 0 && (
         <p className="mt-4 text-[10px] text-on-surface-variant uppercase tracking-widest">
-          Showing {filtered.length} of {RESOURCES.length} resources
+          Showing {filtered.length} of {resources.length} resources
         </p>
       )}
     </div>

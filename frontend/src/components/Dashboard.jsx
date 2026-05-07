@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useResources } from '../context/ResourceContext'
 import Resources from './Resources'
 import Networks from './Networks'
 import Security from './Security'
@@ -19,25 +20,25 @@ const CAPABILITIES = [
   { icon: 'lock',      label: 'Automated Key Vault Secrets' },
 ]
 
-const RECENT_REQUESTS = [
-  { name: 'Data-Lake-Alpha',    type: 'PostgreSQL',    status: 'ACTIVE',    date: 'Oct 24, 2026' },
-  { name: 'Web-Portal-Next',    type: 'Azure Web App', status: 'DEPLOYING', date: 'Oct 25, 2026' },
-  { name: 'Legacy-Sync-Service',type: 'VM Instance',   status: 'FAILED',    date: 'Oct 22, 2026' },
-]
-
+// Matches the unified status values from ResourceContext
 const STATUS_STYLES = {
-  ACTIVE:    'bg-emerald-500/10 text-emerald-400 border-emerald-500/20 shadow-[0_0_8px_rgba(52,211,153,0.15)]',
-  DEPLOYING: 'bg-primary/10 text-primary border-primary/20',
-  FAILED:    'bg-error-container/20 text-error border-error/20',
+  Running:   'bg-emerald-500/10 text-emerald-400 border-emerald-500/20 shadow-[0_0_8px_rgba(52,211,153,0.15)]',
+  Deploying: 'bg-primary/10 text-primary border-primary/20',
+  Failed:    'bg-error-container/20 text-error border-error/20',
+  Stopped:   'bg-amber-500/10 text-amber-400 border-amber-500/20',
 }
 
 const DOT_STYLES = {
-  ACTIVE:    'bg-emerald-400',
-  DEPLOYING: 'bg-primary animate-pulse',
-  FAILED:    'bg-error',
+  Running:   'bg-emerald-400',
+  Deploying: 'bg-primary animate-pulse',
+  Failed:    'bg-error',
+  Stopped:   'bg-amber-400',
 }
 
-function DashboardContent({ requests, onOpenModal }) {
+function DashboardContent({ onOpenModal }) {
+  const { resources } = useResources()
+  const recent = resources.slice(0, 5)
+
   return (
     <div className="p-8 max-w-7xl mx-auto w-full">
       <div className="mb-10">
@@ -127,7 +128,7 @@ function DashboardContent({ requests, onOpenModal }) {
             </button>
           </div>
 
-          {/* Recent requests */}
+          {/* Recent requests — live from global state */}
           <div className="space-y-6">
             <div className="flex items-center justify-between">
               <h3 className="text-xl font-bold font-headline text-on-surface">Recent Requests</h3>
@@ -146,13 +147,13 @@ function DashboardContent({ requests, onOpenModal }) {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-white/5">
-                  {requests.map(({ name, type, status, date }) => (
+                  {recent.map(({ name, type, status, date }) => (
                     <tr key={name} className="hover:bg-white/5 transition-colors">
                       <td className="px-6 py-4 font-medium text-sm">{name}</td>
                       <td className="px-6 py-4 text-sm text-on-surface-variant">{type}</td>
                       <td className="px-6 py-4">
-                        <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide border ${STATUS_STYLES[status]}`}>
-                          <span className={`w-1.5 h-1.5 rounded-full ${DOT_STYLES[status]}`} />
+                        <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide border ${STATUS_STYLES[status] ?? STATUS_STYLES.Deploying}`}>
+                          <span className={`w-1.5 h-1.5 rounded-full ${DOT_STYLES[status] ?? DOT_STYLES.Deploying}`} />
                           {status}
                         </span>
                       </td>
@@ -239,17 +240,17 @@ function ComingSoon({ label }) {
 }
 
 export default function Dashboard() {
-  const [activeTab,      setActiveTab]      = useState('Dashboard')
-  const [showModal,      setShowModal]      = useState(false)
-  const [recentRequests, setRecentRequests] = useState(RECENT_REQUESTS)
+  const [activeTab, setActiveTab] = useState('Dashboard')
+  const [showModal, setShowModal] = useState(false)
+  const { addResource } = useResources()
 
   function handleDeploy(newResource) {
-    setRecentRequests(prev => [newResource, ...prev])
+    addResource(newResource)
     setActiveTab('Dashboard')
   }
 
   function renderContent() {
-    if (activeTab === 'Dashboard') return <DashboardContent requests={recentRequests} onOpenModal={() => setShowModal(true)} />
+    if (activeTab === 'Dashboard') return <DashboardContent onOpenModal={() => setShowModal(true)} />
     if (activeTab === 'Resources') return <Resources />
     if (activeTab === 'Networks')  return <Networks />
     if (activeTab === 'Security')  return <Security />
@@ -316,7 +317,6 @@ export default function Dashboard() {
 
       {/* Main content */}
       <main className="flex-1 ml-64 flex flex-col min-h-screen">
-        {/* Top bar */}
         <header className="flex items-center justify-between px-6 w-full h-16 bg-[#0b1326] border-b border-white/5 sticky top-0 z-30">
           <div className="flex items-center gap-8">
             <span className="text-lg font-bold tracking-tight text-[#dae2fd] font-headline">
