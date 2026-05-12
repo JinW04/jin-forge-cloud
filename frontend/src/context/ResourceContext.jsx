@@ -40,8 +40,12 @@ export function ResourceProvider({ children }) {
     ])
   }
 
+  function removeResource(name) {
+    setResources(prev => prev.filter(r => r.name !== name))
+  }
+
   return (
-    <ResourceContext.Provider value={{ resources, addResource }}>
+    <ResourceContext.Provider value={{ resources, addResource, removeResource }}>
       {children}
     </ResourceContext.Provider>
   )
