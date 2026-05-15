@@ -1,47 +1,98 @@
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useState, useEffect } from 'react'
+import { supabase } from '../lib/supabaseClient'
+import { useLog } from './LogContext'
 
-// Derives icon and default cost from the modal's resource type dropdown values
 const TYPE_META = {
   'Virtual Machine':    { icon: 'computer',    costHr: 0.08 },
   'PostgreSQL DB':      { icon: 'database',    costHr: 0.25 },
   'Kubernetes Cluster': { icon: 'hub',         costHr: 0.50 },
   'Azure Web App':      { icon: 'cloud',       costHr: 0.12 },
   'Storage Account':    { icon: 'folder_data', costHr: 0.03 },
-  // Aliases used in the existing seed data
   'VM':                 { icon: 'computer',    costHr: 0.08 },
   'Database':           { icon: 'database',    costHr: 0.25 },
 }
 
-// Master list — newest first so Dashboard can just .slice(0, 5)
-// Unified shape: name, type, icon, region, status, date, costHr
-const INITIAL_RESOURCES = [
-  { name: 'web-portal-staging',  type: 'Azure Web App',   icon: 'cloud',       region: 'East US',        status: 'Deploying', date: 'May 5, 2026',  costHr: 0.09 },
-  { name: 'api-gateway-dev',     type: 'Azure Web App',   icon: 'cloud',       region: 'West US',        status: 'Running',   date: 'Apr 30, 2026', costHr: 0.06 },
-  { name: 'web-portal-prod',     type: 'Azure Web App',   icon: 'cloud',       region: 'East US',        status: 'Running',   date: 'Apr 28, 2026', costHr: 0.12 },
-  { name: 'analytics-db',        type: 'Database',        icon: 'database',    region: 'North Europe',   status: 'Running',   date: 'Apr 22, 2026', costHr: 0.31 },
-  { name: 'db-postgres-prod',    type: 'Database',        icon: 'database',    region: 'East US',        status: 'Running',   date: 'Apr 20, 2026', costHr: 0.25 },
-  { name: 'data-lake-alpha',     type: 'Storage Account', icon: 'folder_data', region: 'West Europe',    status: 'Running',   date: 'Apr 15, 2026', costHr: 0.03 },
-  { name: 'ml-training-vm',      type: 'VM',              icon: 'computer',    region: 'East US 2',      status: 'Stopped',   date: 'Mar 20, 2026', costHr: 1.20 },
-  { name: 'vm-build-agent-01',   type: 'VM',              icon: 'computer',    region: 'Southeast Asia', status: 'Stopped',   date: 'Mar 10, 2026', costHr: 0.08 },
-  { name: 'legacy-sync-svc',     type: 'VM',              icon: 'computer',    region: 'East US',        status: 'Failed',    date: 'Mar 5, 2026',  costHr: 0.18 },
-  { name: 'backup-storage',      type: 'Storage Account', icon: 'folder_data', region: 'West Europe',    status: 'Running',   date: 'Feb 18, 2026', costHr: 0.02 },
-]
+// DB stores cost_hr (snake_case); React state uses costHr (camelCase)
+function toReactShape(row) {
+  return { ...row, costHr: row.cost_hr }
+}
 
 const ResourceContext = createContext(null)
 
 export function ResourceProvider({ children }) {
-  const [resources, setResources] = useState(INITIAL_RESOURCES)
+  const [resources, setResources] = useState([])
+  const { addLog } = useLog()
 
-  function addResource({ name, type, region, status, date }) {
+  useEffect(() => {
+    async function fetchResources() {
+      const { data, error } = await supabase
+        .from('resources')
+        .select('*')
+        .order('created_at', { ascending: false })
+
+      if (error) {
+        console.error('Failed to fetch resources:', error.message)
+        return
+      }
+
+      setResources(data.map(toReactShape))
+    }
+
+    fetchResources()
+  }, [])
+
+  async function addResource({ name, type, region, status, date }) {
     const meta = TYPE_META[type] ?? { icon: 'dns', costHr: 0.10 }
-    setResources(prev => [
-      { name, type, icon: meta.icon, region, status, date, costHr: meta.costHr },
-      ...prev,
-    ])
+
+    const { data, error } = await supabase
+      .from('resources')
+      .insert({
+        name,
+        type,
+        icon:     meta.icon,
+        // Added fallbacks here so Supabase never gets a null value!
+        region:   region || 'us-east', 
+        status:   'Deploying', // <--- Forced to match the DB constraint exactly
+        date:     date || new Date().toISOString().split('T')[0], 
+        cost_hr:  meta.costHr,
+      })
+      .select()
+      .single()
+
+    if (error) {
+      console.error('Failed to insert resource:', error.message)
+      return
+    }
+
+    setResources(prev => [toReactShape(data), ...prev])
+
+    await addLog({
+      event: 'RESOURCE_CREATED',
+      user:  'jin@corp.local',
+      msg:   `${data.type} provisioned: ${data.name} in ${data.region}.`,
+    })
   }
 
-  function removeResource(name) {
+  async function removeResource(name) {
+    const resource = resources.find(r => r.name === name)
+
+    const { error } = await supabase
+      .from('resources')
+      .delete()
+      .eq('name', name)
+
+    if (error) {
+      console.error('Failed to delete resource:', error.message)
+      return
+    }
+
     setResources(prev => prev.filter(r => r.name !== name))
+
+    await addLog({
+      event: 'RESOURCE_DELETED',
+      user:  'jin@corp.local',
+      msg:   `${resource?.type ?? 'Resource'} decommissioned: ${name} (${resource?.region ?? 'unknown region'}).`,
+    })
   }
 
   return (

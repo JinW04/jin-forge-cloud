@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { useResources } from '../context/ResourceContext'
-import { useLog } from '../context/LogContext'
 
 const STATUS_STYLES = {
   Running:   'bg-emerald-500/10 text-emerald-400 border-emerald-500/20 shadow-[0_0_8px_rgba(52,211,153,0.15)]',
@@ -123,7 +122,6 @@ function DecommissionModal({ resource, onConfirm, onCancel }) {
 
 export default function Resources() {
   const { resources, removeResource } = useResources()
-  const { addLog } = useLog()
   const [search, setSearch] = useState('')
   const [targetResource, setTargetResource] = useState(null)
 
@@ -136,11 +134,6 @@ export default function Resources() {
 
   function handleConfirmDecommission(name) {
     removeResource(name)
-    addLog({
-      event: 'RESOURCE_DELETED',
-      user:  'jin@corp.local',
-      msg:   `Resource ${name} was successfully decommissioned.`,
-    })
     setTargetResource(null)
   }
 
