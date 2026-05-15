@@ -66,11 +66,15 @@ export function ResourceProvider({ children }) {
 
     setResources(prev => [toReactShape(data), ...prev])
 
-    await addLog({
-      event: 'RESOURCE_CREATED',
-      user:  'jin@corp.local',
-      msg:   `${data.type} provisioned: ${data.name} in ${data.region}.`,
-    })
+    try {
+      await addLog({
+        event: 'RESOURCE_CREATED',
+        user:  'jin@corp.local',
+        msg:   `${data.type} provisioned: ${data.name} in ${data.region}.`,
+      })
+    } catch (logErr) {
+      console.warn('Log entry failed (non-critical):', logErr.message)
+    }
   }
 
   async function removeResource(name) {
@@ -88,11 +92,15 @@ export function ResourceProvider({ children }) {
 
     setResources(prev => prev.filter(r => r.name !== name))
 
-    await addLog({
-      event: 'RESOURCE_DELETED',
-      user:  'jin@corp.local',
-      msg:   `${resource?.type ?? 'Resource'} decommissioned: ${name} (${resource?.region ?? 'unknown region'}).`,
-    })
+    try {
+      await addLog({
+        event: 'RESOURCE_DELETED',
+        user:  'jin@corp.local',
+        msg:   `${resource?.type ?? 'Resource'} decommissioned: ${name} (${resource?.region ?? 'unknown region'}).`,
+      })
+    } catch (logErr) {
+      console.warn('Log entry failed (non-critical):', logErr.message)
+    }
   }
 
   return (
