@@ -38,6 +38,7 @@ const DOT_STYLES = {
 function DashboardContent({ onOpenModal }) {
   const { resources } = useResources()
   const recent = resources.slice(0, 5)
+  const monthlyEstimate = (resources.reduce((sum, r) => sum + r.costHr, 0) * 730).toFixed(2)
 
   return (
     <div className="p-8 max-w-7xl mx-auto w-full">
@@ -197,7 +198,7 @@ function DashboardContent({ onOpenModal }) {
                 Estimated Monthly Run
               </span>
               <div className="flex items-baseline gap-1">
-                <span className="text-4xl font-black text-on-surface">$42.00</span>
+                <span className="text-4xl font-black text-on-surface">${monthlyEstimate}</span>
                 <span className="text-sm font-bold text-on-surface-variant">/mo</span>
               </div>
             </div>
