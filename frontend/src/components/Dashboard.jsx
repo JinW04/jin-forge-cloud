@@ -38,7 +38,9 @@ const DOT_STYLES = {
 function DashboardContent({ onOpenModal }) {
   const { resources } = useResources()
   const recent = resources.slice(0, 5)
+  const BUDGET_CAP = 2000
   const monthlyEstimate = (resources.reduce((sum, r) => sum + r.costHr, 0) * 730).toFixed(2)
+  const budgetPct = Math.min((monthlyEstimate / BUDGET_CAP) * 100, 100).toFixed(1)
 
   return (
     <div className="p-8 max-w-7xl mx-auto w-full">
@@ -204,11 +206,11 @@ function DashboardContent({ onOpenModal }) {
             </div>
             <div className="mt-6 flex gap-2">
               <div className="h-1 flex-1 bg-primary/20 rounded-full overflow-hidden">
-                <div className="h-full bg-primary w-[65%]" />
+                <div className="h-full bg-primary transition-all duration-500" style={{ width: `${budgetPct}%` }} />
               </div>
             </div>
             <p className="mt-3 text-[10px] text-on-surface-variant italic">
-              Based on standard B-series compute profile.
+              {budgetPct}% of $2,000 budget used.
             </p>
           </div>
 
