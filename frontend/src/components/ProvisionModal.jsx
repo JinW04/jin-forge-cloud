@@ -30,7 +30,7 @@ export default function ProvisionModal({ onClose, onDeploy }) {
     setTimeout(() => {
       const now  = new Date()
       const date = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
-      onDeploy({ name: name.trim(), type, status: 'DEPLOYING', date })
+      onDeploy({ name: name.trim(), type, region, status: 'DEPLOYING', date })
       onClose()
     }, 2000)
   }
