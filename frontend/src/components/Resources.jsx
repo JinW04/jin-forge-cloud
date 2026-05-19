@@ -121,7 +121,7 @@ function DecommissionModal({ resource, onConfirm, onCancel }) {
 }
 
 export default function Resources() {
-  const { resources, removeResource } = useResources()
+  const { resources, removeResource, toggleResourceStatus } = useResources()
   const [search, setSearch] = useState('')
   const [targetResource, setTargetResource] = useState(null)
 
@@ -236,13 +236,28 @@ export default function Resources() {
                       <span className="text-[10px] text-on-surface-variant ml-0.5">/hr</span>
                     </td>
                     <td className="px-6 py-4 text-center">
-                      <button
-                        onClick={() => setTargetResource(resource)}
-                        className="p-1.5 rounded-lg text-on-surface-variant/40 hover:text-error hover:bg-error/10 transition-all cursor-pointer"
-                        title={`Decommission ${name}`}
-                      >
-                        <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>delete</span>
-                      </button>
+                      <div className="flex items-center justify-center gap-1">
+                        <button
+                          onClick={() => toggleResourceStatus(resource.id, status)}
+                          className={`p-1.5 rounded-lg transition-all cursor-pointer ${
+                            status === 'Stopped' || status === 'Failed'
+                              ? 'text-on-surface-variant/40 hover:text-emerald-400 hover:bg-emerald-500/10'
+                              : 'text-on-surface-variant/40 hover:text-amber-400 hover:bg-amber-500/10'
+                          }`}
+                          title={status === 'Stopped' || status === 'Failed' ? `Start ${name}` : `Stop ${name}`}
+                        >
+                          <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>
+                            {status === 'Stopped' || status === 'Failed' ? 'play_arrow' : 'stop'}
+                          </span>
+                        </button>
+                        <button
+                          onClick={() => setTargetResource(resource)}
+                          className="p-1.5 rounded-lg text-on-surface-variant/40 hover:text-error hover:bg-error/10 transition-all cursor-pointer"
+                          title={`Decommission ${name}`}
+                        >
+                          <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>delete</span>
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 )

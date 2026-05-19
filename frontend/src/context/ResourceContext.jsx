@@ -77,6 +77,36 @@ export function ResourceProvider({ children }) {
     }
   }
 
+  async function toggleResourceStatus(id, currentStatus) {
+    const newStatus = (currentStatus === 'Running' || currentStatus === 'Deploying')
+      ? 'Stopped'
+      : 'Running'
+
+    const resource = resources.find(r => r.id === id)
+
+    const { error } = await supabase
+      .from('resources')
+      .update({ status: newStatus })
+      .eq('id', id)
+
+    if (error) {
+      console.error('Failed to update resource status:', error.message)
+      return
+    }
+
+    setResources(prev => prev.map(r => r.id === id ? { ...r, status: newStatus } : r))
+
+    try {
+      await addLog({
+        event: newStatus === 'Running' ? 'RESOURCE_STARTED' : 'RESOURCE_STOPPED',
+        user:  'jin@corp.local',
+        msg:   `${resource?.type ?? 'Resource'} ${resource?.name ?? id} ${newStatus === 'Running' ? 'started' : 'stopped'}.`,
+      })
+    } catch (logErr) {
+      console.warn('Log entry failed (non-critical):', logErr.message)
+    }
+  }
+
   async function removeResource(name) {
     const resource = resources.find(r => r.name === name)
 
@@ -104,7 +134,7 @@ export function ResourceProvider({ children }) {
   }
 
   return (
-    <ResourceContext.Provider value={{ resources, addResource, removeResource }}>
+    <ResourceContext.Provider value={{ resources, addResource, removeResource, toggleResourceStatus }}>
       {children}
     </ResourceContext.Provider>
   )
