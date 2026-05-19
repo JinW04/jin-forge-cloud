@@ -105,13 +105,8 @@ export function ResourceProvider({ children }) {
 
     setResources(prev => [toReactShape(data), ...prev])
 
-    console.log('Insert response shape:', data)
-    console.log('Scheduling deployment for ID:', data?.id)
-
     if (data?.id) {
       scheduleDeploymentCompletion(data.id, data.name, data.type)
-    } else {
-      console.error('Cannot schedule deployment: id missing from insert response', data)
     }
 
     try {

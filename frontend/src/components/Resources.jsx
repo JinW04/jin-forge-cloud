@@ -124,8 +124,6 @@ export default function Resources({ searchQuery = '' }) {
   const { resources, removeResource, toggleResourceStatus } = useResources()
   const [targetResource, setTargetResource] = useState(null)
 
-  console.log('Table filtering with query:', searchQuery)
-
   const q = searchQuery?.toLowerCase() || ''
   const filtered = resources.filter(r =>
     [r.name, r.type, r.region, r.status].some(v => v?.toLowerCase().includes(q))

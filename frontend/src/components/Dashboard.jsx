@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { supabase } from '../lib/supabaseClient'
 import { useResources } from '../context/ResourceContext'
 import Resources from './Resources'
 import Networks from './Networks'
@@ -390,6 +391,13 @@ export default function Dashboard() {
               <span className="material-symbols-outlined">settings</span>
             </button>
             <div className="h-8 w-px bg-white/10 mx-2" />
+            <button
+              onClick={() => supabase.auth.signOut()}
+              title="Sign out"
+              className="p-2 text-on-surface-variant/60 hover:text-error hover:bg-error/10 rounded-full transition-colors cursor-pointer"
+            >
+              <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>logout</span>
+            </button>
             <div className="w-8 h-8 rounded-full border border-primary/20 bg-primary/20 flex items-center justify-center text-primary font-bold text-sm select-none">
               J
             </div>
