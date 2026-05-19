@@ -343,19 +343,9 @@ export default function Dashboard() {
       {/* Main content */}
       <main className="flex-1 ml-64 flex flex-col min-h-screen">
         <header className="flex items-center justify-between px-6 w-full h-16 bg-[#0b1326] border-b border-white/5 sticky top-0 z-30">
-          <div className="flex items-center gap-8">
-            <span className="text-lg font-bold tracking-tight text-[#dae2fd] font-headline">
-              Jin&apos;s cloud service
-            </span>
-            <div className="hidden md:flex items-center bg-surface-container-low px-4 py-1.5 rounded-full border border-outline-variant/10 w-96">
-              <span className="material-symbols-outlined text-outline text-lg">search</span>
-              <input
-                className="bg-transparent border-none outline-none text-sm text-on-surface w-full placeholder:text-outline-variant ml-2"
-                placeholder="Search resources..."
-                type="text"
-              />
-            </div>
-          </div>
+          <span className="text-lg font-bold tracking-tight text-[#dae2fd] font-headline">
+            Jin&apos;s cloud service
+          </span>
           <div className="flex items-center gap-2">
             <button className="p-2 text-[#dae2fd]/60 hover:bg-[#222a3d] rounded-full transition-colors cursor-pointer">
               <span className="material-symbols-outlined">help_outline</span>

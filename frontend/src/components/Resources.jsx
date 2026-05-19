@@ -124,8 +124,11 @@ export default function Resources({ searchQuery = '' }) {
   const { resources, removeResource, toggleResourceStatus } = useResources()
   const [targetResource, setTargetResource] = useState(null)
 
-  const filtered = resources.filter(({ name, type, region, status }) =>
-    [name, type, region, status].some(v => v.toLowerCase().includes(searchQuery.toLowerCase()))
+  console.log('Table filtering with query:', searchQuery)
+
+  const q = searchQuery?.toLowerCase() || ''
+  const filtered = resources.filter(r =>
+    [r.name, r.type, r.region, r.status].some(v => v?.toLowerCase().includes(q))
   )
 
   const runningCount = resources.filter(r => r.status === 'Running').length
