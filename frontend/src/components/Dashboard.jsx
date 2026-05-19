@@ -36,9 +36,9 @@ const DOT_STYLES = {
   Stopped:   'bg-amber-400',
 }
 
-function DashboardContent({ onOpenModal }) {
+function DashboardContent({ onOpenModal, onNavigate }) {
   const { resources } = useResources()
-  const recent = resources.slice(0, 5)
+  const recent = resources
   const BUDGET_CAP = 2000
   const activeMonthly = resources
     .filter(r => r.status === 'Running' || r.status === 'Deploying')
@@ -189,13 +189,16 @@ function DashboardContent({ onOpenModal }) {
           <div className="space-y-6">
             <div className="flex items-center justify-between">
               <h3 className="text-xl font-bold font-headline text-on-surface">Recent Requests</h3>
-              <a href="#" className="text-xs uppercase tracking-widest font-bold text-primary hover:underline transition-all">
+              <button
+                onClick={() => onNavigate('Resources')}
+                className="text-xs uppercase tracking-widest font-bold text-primary hover:underline transition-all cursor-pointer"
+              >
                 View All History
-              </a>
+              </button>
             </div>
             <div className="bg-surface-container-low rounded-xl overflow-hidden">
               <table className="w-full text-left border-collapse">
-                <thead>
+                <thead className="sticky top-0">
                   <tr className="bg-surface-container-high">
                     <th className="px-6 py-4 text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">Resource Name</th>
                     <th className="px-6 py-4 text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">Type</th>
@@ -203,22 +206,26 @@ function DashboardContent({ onOpenModal }) {
                     <th className="px-6 py-4 text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">Created</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-white/5">
-                  {recent.map(({ name, type, status, date }) => (
-                    <tr key={name} className="hover:bg-white/5 transition-colors">
-                      <td className="px-6 py-4 font-medium text-sm">{name}</td>
-                      <td className="px-6 py-4 text-sm text-on-surface-variant">{type}</td>
-                      <td className="px-6 py-4">
-                        <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide border ${STATUS_STYLES[status] ?? STATUS_STYLES.Deploying}`}>
-                          <span className={`w-1.5 h-1.5 rounded-full ${DOT_STYLES[status] ?? DOT_STYLES.Deploying}`} />
-                          {status}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4 text-sm text-on-surface-variant">{date}</td>
-                    </tr>
-                  ))}
-                </tbody>
               </table>
+              <div className="max-h-[300px] overflow-y-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-slate-700 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-slate-600">
+                <table className="w-full text-left border-collapse">
+                  <tbody className="divide-y divide-white/5">
+                    {recent.map(({ name, type, status, date }) => (
+                      <tr key={name} className="hover:bg-white/5 transition-colors">
+                        <td className="px-6 py-4 font-medium text-sm">{name}</td>
+                        <td className="px-6 py-4 text-sm text-on-surface-variant">{type}</td>
+                        <td className="px-6 py-4">
+                          <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide border ${STATUS_STYLES[status] ?? STATUS_STYLES.Deploying}`}>
+                            <span className={`w-1.5 h-1.5 rounded-full ${DOT_STYLES[status] ?? DOT_STYLES.Deploying}`} />
+                            {status}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4 text-sm text-on-surface-variant">{date}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
@@ -308,7 +315,7 @@ export default function Dashboard() {
   }
 
   function renderContent() {
-    if (activeTab === 'Dashboard') return <DashboardContent onOpenModal={() => setShowModal(true)} />
+    if (activeTab === 'Dashboard') return <DashboardContent onOpenModal={() => setShowModal(true)} onNavigate={(tab) => { setActiveTab(tab); setSearchQuery('') }} />
     if (activeTab === 'Resources') return <Resources searchQuery={searchQuery} />
     if (activeTab === 'Networks')  return <Networks  searchQuery={searchQuery} />
     if (activeTab === 'Security')  return <Security  searchQuery={searchQuery} />
