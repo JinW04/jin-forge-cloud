@@ -130,7 +130,9 @@ export default function Resources() {
   )
 
   const runningCount = resources.filter(r => r.status === 'Running').length
-  const totalCostHr  = resources.reduce((sum, r) => sum + r.costHr, 0)
+  const totalCostHr  = resources
+    .filter(r => r.status === 'Running' || r.status === 'Deploying')
+    .reduce((sum, r) => sum + r.costHr, 0)
 
   function handleConfirmDecommission(name) {
     removeResource(name)
