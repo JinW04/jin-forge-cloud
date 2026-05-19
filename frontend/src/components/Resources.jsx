@@ -120,13 +120,12 @@ function DecommissionModal({ resource, onConfirm, onCancel }) {
   )
 }
 
-export default function Resources() {
+export default function Resources({ searchQuery = '' }) {
   const { resources, removeResource, toggleResourceStatus } = useResources()
-  const [search, setSearch] = useState('')
   const [targetResource, setTargetResource] = useState(null)
 
   const filtered = resources.filter(({ name, type, region, status }) =>
-    [name, type, region, status].some(v => v.toLowerCase().includes(search.toLowerCase()))
+    [name, type, region, status].some(v => v.toLowerCase().includes(searchQuery.toLowerCase()))
   )
 
   const runningCount = resources.filter(r => r.status === 'Running').length
@@ -167,25 +166,6 @@ export default function Resources() {
         </div>
       </div>
 
-      {/* Search bar */}
-      <div className="mb-6 flex items-center gap-3 bg-surface-container-low border border-outline-variant/20 px-4 py-2.5 rounded-xl max-w-lg">
-        <span className="material-symbols-outlined text-outline">search</span>
-        <input
-          className="bg-transparent border-none outline-none text-sm text-on-surface w-full placeholder:text-outline-variant"
-          placeholder="Filter by name, type, region, or status…"
-          value={search}
-          onChange={e => setSearch(e.target.value)}
-        />
-        {search && (
-          <button
-            onClick={() => setSearch('')}
-            className="text-outline hover:text-on-surface transition-colors cursor-pointer"
-          >
-            <span className="material-symbols-outlined text-lg">close</span>
-          </button>
-        )}
-      </div>
-
       {/* Table */}
       <div className="bg-surface-container-low rounded-xl overflow-hidden">
         <table className="w-full text-left border-collapse">
@@ -204,7 +184,7 @@ export default function Resources() {
               <tr>
                 <td colSpan={6} className="px-6 py-16 text-center text-on-surface-variant">
                   <span className="material-symbols-outlined text-5xl block mb-3 opacity-30">search_off</span>
-                  <p className="text-sm">No resources match &quot;{search}&quot;</p>
+                  <p className="text-sm">{searchQuery ? `No resources match "${searchQuery}"` : 'No resources found.'}</p>
                 </td>
               </tr>
             ) : (

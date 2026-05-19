@@ -39,8 +39,12 @@ function DashboardContent({ onOpenModal }) {
   const { resources } = useResources()
   const recent = resources.slice(0, 5)
   const BUDGET_CAP = 2000
-  const monthlyEstimate = (resources.reduce((sum, r) => sum + r.costHr, 0) * 730).toFixed(2)
-  const budgetPct = Math.min((monthlyEstimate / BUDGET_CAP) * 100, 100).toFixed(1)
+  const activeMonthly = resources
+    .filter(r => r.status === 'Running' || r.status === 'Deploying')
+    .reduce((sum, r) => sum + r.costHr, 0) * 730
+  const monthlyEstimate = activeMonthly.toFixed(2)
+  const budgetPct = Math.min((activeMonthly / BUDGET_CAP) * 100, 100).toFixed(1)
+  const budgetBreached = activeMonthly > BUDGET_CAP
 
   return (
     <div className="p-8 max-w-7xl mx-auto w-full">
@@ -52,6 +56,23 @@ function DashboardContent({ onOpenModal }) {
           Instantly provision secure, compliant, and cost-optimized infrastructure in global regions.
         </p>
       </div>
+
+      {budgetBreached && (
+        <div className="mb-8 flex items-start gap-4 rounded-xl border border-amber-500/40 bg-amber-500/[0.08] px-6 py-5">
+          <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center">
+            <span className="material-symbols-outlined text-amber-400" style={{ fontSize: '20px' }}>warning</span>
+          </div>
+          <div>
+            <p className="font-bold text-amber-400 text-sm tracking-tight">Budget Alert</p>
+            <p className="text-sm text-amber-400/80 mt-1">
+              Current active infrastructure projection{' '}
+              <span className="font-mono font-bold text-amber-400">(${monthlyEstimate}/mo)</span>{' '}
+              exceeds your established monthly safety budget{' '}
+              <span className="font-mono font-bold text-amber-400">(${BUDGET_CAP.toLocaleString()}/mo)</span>.
+            </p>
+          </div>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Left column */}
@@ -245,6 +266,7 @@ function ComingSoon({ label }) {
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState('Dashboard')
   const [showModal, setShowModal] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('')
   const { addResource } = useResources()
 
   function handleDeploy(newResource) {
@@ -254,9 +276,9 @@ export default function Dashboard() {
 
   function renderContent() {
     if (activeTab === 'Dashboard') return <DashboardContent onOpenModal={() => setShowModal(true)} />
-    if (activeTab === 'Resources') return <Resources />
-    if (activeTab === 'Networks')  return <Networks />
-    if (activeTab === 'Security')  return <Security />
+    if (activeTab === 'Resources') return <Resources searchQuery={searchQuery} />
+    if (activeTab === 'Networks')  return <Networks  searchQuery={searchQuery} />
+    if (activeTab === 'Security')  return <Security  searchQuery={searchQuery} />
     if (activeTab === 'Logs')      return <Logs />
     return <ComingSoon label={activeTab} />
   }
@@ -283,7 +305,7 @@ export default function Dashboard() {
             activeTab === label ? (
               <button
                 key={label}
-                onClick={() => setActiveTab(label)}
+                onClick={() => { setActiveTab(label); setSearchQuery('') }}
                 className="w-full flex items-center gap-3 bg-gradient-to-r from-[#a3c9ff] to-[#0078d4] text-white rounded-r-full py-3 px-6 transition-all duration-200 cursor-pointer"
               >
                 <span className="material-symbols-outlined">{icon}</span>
@@ -292,7 +314,7 @@ export default function Dashboard() {
             ) : (
               <button
                 key={label}
-                onClick={() => setActiveTab(label)}
+                onClick={() => { setActiveTab(label); setSearchQuery('') }}
                 className="w-full flex items-center gap-3 text-[#dae2fd]/70 py-3 px-6 hover:text-[#a3c9ff] hover:bg-[#171f33] transition-all duration-200 cursor-pointer"
               >
                 <span className="material-symbols-outlined">{icon}</span>
@@ -351,6 +373,28 @@ export default function Dashboard() {
             </div>
           </div>
         </header>
+
+        {['Resources', 'Networks', 'Security'].includes(activeTab) && (
+          <div className="sticky top-16 z-20 px-8 py-3 bg-[#0b1326]/90 backdrop-blur-sm border-b border-white/5">
+            <div className="max-w-7xl mx-auto flex items-center gap-3 bg-surface-container-low border border-outline-variant/20 px-4 py-2.5 rounded-xl">
+              <span className="material-symbols-outlined text-outline">search</span>
+              <input
+                className="bg-transparent border-none outline-none text-sm text-on-surface w-full placeholder:text-outline-variant"
+                placeholder={`Search ${activeTab.toLowerCase()}…`}
+                value={searchQuery}
+                onChange={e => setSearchQuery(e.target.value)}
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery('')}
+                  className="text-outline hover:text-on-surface transition-colors cursor-pointer"
+                >
+                  <span className="material-symbols-outlined text-lg">close</span>
+                </button>
+              )}
+            </div>
+          </div>
+        )}
 
         {renderContent()}
 

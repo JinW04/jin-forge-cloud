@@ -144,7 +144,14 @@ function NetworkMap() {
   )
 }
 
-export default function Networks() {
+export default function Networks({ searchQuery = '' }) {
+  const q = searchQuery.toLowerCase()
+  const filtered = VNETS.filter(v =>
+    v.name.toLowerCase().includes(q) ||
+    v.addressSpace.toLowerCase().includes(q) ||
+    v.region.toLowerCase().includes(q) ||
+    v.subnetList.some(s => s.toLowerCase().includes(q))
+  )
   const enabledCount  = VNETS.filter(v => v.ddos === 'Enabled').length
   const totalSubnets  = VNETS.reduce((sum, v) => sum + v.subnets, 0)
 
@@ -194,7 +201,14 @@ export default function Networks() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-white/5">
-                {VNETS.map(({ name, addressSpace, subnets, subnetList, ddos, region }) => (
+                {filtered.length === 0 ? (
+                  <tr>
+                    <td colSpan={4} className="px-6 py-16 text-center text-on-surface-variant">
+                      <span className="material-symbols-outlined text-5xl block mb-3 opacity-30">search_off</span>
+                      <p className="text-sm">{searchQuery ? `No networks match "${searchQuery}"` : 'No networks found.'}</p>
+                    </td>
+                  </tr>
+                ) : filtered.map(({ name, addressSpace, subnets, subnetList, ddos, region }) => (
                   <tr key={name} className="hover:bg-white/5 transition-colors cursor-pointer group">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">

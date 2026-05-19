@@ -34,7 +34,14 @@ const ROLE_STYLES = {
 
 const PRINCIPAL_ICONS = { user: 'person', sp: 'deployed_code', bot: 'smart_toy' }
 
-export default function Security() {
+export default function Security({ searchQuery = '' }) {
+  const q = searchQuery.toLowerCase()
+  const filteredRules = FIREWALL_RULES.filter(r =>
+    r.name.toLowerCase().includes(q) ||
+    r.protocol.toLowerCase().includes(q) ||
+    r.port.includes(q) ||
+    r.action.toLowerCase().includes(q)
+  )
   const allowCount = FIREWALL_RULES.filter(r => r.action === 'Allow').length
   const denyCount  = FIREWALL_RULES.filter(r => r.action === 'Deny').length
 
@@ -79,7 +86,14 @@ export default function Security() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-white/5">
-                {FIREWALL_RULES.map(({ name, protocol, port, action }) => (
+                {filteredRules.length === 0 ? (
+                  <tr>
+                    <td colSpan={4} className="px-6 py-16 text-center text-on-surface-variant">
+                      <span className="material-symbols-outlined text-5xl block mb-3 opacity-30">search_off</span>
+                      <p className="text-sm">{searchQuery ? `No rules match "${searchQuery}"` : 'No firewall rules found.'}</p>
+                    </td>
+                  </tr>
+                ) : filteredRules.map(({ name, protocol, port, action }) => (
                   <tr key={name} className="hover:bg-white/5 transition-colors cursor-pointer">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
