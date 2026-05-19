@@ -12,6 +12,8 @@ const TYPE_META = {
   'Database':           { icon: 'database',    costHr: 0.25 },
 }
 
+const DEPLOYMENT_TIMEOUT = 7000
+
 // DB stores cost_hr (snake_case); React state uses costHr (camelCase)
 function toReactShape(row) {
   return { ...row, costHr: row.cost_hr }
@@ -22,6 +24,38 @@ const ResourceContext = createContext(null)
 export function ResourceProvider({ children }) {
   const [resources, setResources] = useState([])
   const { addLog } = useLog()
+
+  function scheduleDeploymentCompletion(id, name, type) {
+    setTimeout(async () => {
+      const { data: updated, error } = await supabase
+        .from('resources')
+        .update({ status: 'Running' })
+        .eq('id', id)
+        .select()
+
+      if (error) {
+        console.error('Failed to auto-complete deployment (DB error):', error)
+        return
+      }
+
+      if (!updated || updated.length === 0) {
+        console.error('Deployment update silently failed — likely blocked by RLS. No rows updated for id:', id)
+        return
+      }
+
+      setResources(prev => prev.map(r => r.id === id ? { ...r, status: 'Running' } : r))
+
+      try {
+        await addLog({
+          event: 'PROVISION_DONE',
+          user:  'sp-terraform-ci',
+          msg:   `Provisioning complete. ${name} (${type}) is now running.`,
+        })
+      } catch (logErr) {
+        console.warn('Log entry failed (non-critical):', logErr.message)
+      }
+    }, DEPLOYMENT_TIMEOUT)
+  }
 
   useEffect(() => {
     async function fetchResources() {
@@ -36,6 +70,11 @@ export function ResourceProvider({ children }) {
       }
 
       setResources(data.map(toReactShape))
+
+      // Resume the countdown for any resources stuck in Deploying from a previous session
+      data
+        .filter(r => r.status === 'Deploying')
+        .forEach(r => scheduleDeploymentCompletion(r.id, r.name, r.type))
     }
 
     fetchResources()
@@ -66,6 +105,15 @@ export function ResourceProvider({ children }) {
 
     setResources(prev => [toReactShape(data), ...prev])
 
+    console.log('Insert response shape:', data)
+    console.log('Scheduling deployment for ID:', data?.id)
+
+    if (data?.id) {
+      scheduleDeploymentCompletion(data.id, data.name, data.type)
+    } else {
+      console.error('Cannot schedule deployment: id missing from insert response', data)
+    }
+
     try {
       await addLog({
         event: 'RESOURCE_CREATED',
@@ -84,13 +132,19 @@ export function ResourceProvider({ children }) {
 
     const resource = resources.find(r => r.id === id)
 
-    const { error } = await supabase
+    const { data: updated, error } = await supabase
       .from('resources')
       .update({ status: newStatus })
       .eq('id', id)
+      .select()
 
     if (error) {
-      console.error('Failed to update resource status:', error.message)
+      console.error('Failed to update resource status (DB error):', error)
+      return
+    }
+
+    if (!updated || updated.length === 0) {
+      console.error('Status toggle silently failed — likely blocked by RLS. No rows updated for id:', id)
       return
     }
 
