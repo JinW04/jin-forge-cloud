@@ -43,8 +43,9 @@ function DashboardContent({ onOpenModal }) {
     .filter(r => r.status === 'Running' || r.status === 'Deploying')
     .reduce((sum, r) => sum + r.costHr, 0) * 730
   const monthlyEstimate = activeMonthly.toFixed(2)
-  const budgetPct = Math.min((activeMonthly / BUDGET_CAP) * 100, 100).toFixed(1)
-  const budgetBreached = activeMonthly > BUDGET_CAP
+  const rawBudgetPct = (activeMonthly / BUDGET_CAP) * 100
+  const budgetPct = Math.min(rawBudgetPct, 100).toFixed(1)
+  const budgetTier = rawBudgetPct >= 100 ? 'critical' : rawBudgetPct >= 75 ? 'warning' : 'safe'
 
   return (
     <div className="p-8 max-w-7xl mx-auto w-full">
@@ -57,19 +58,50 @@ function DashboardContent({ onOpenModal }) {
         </p>
       </div>
 
-      {budgetBreached && (
-        <div className="mb-8 flex items-start gap-4 rounded-xl border border-amber-500/40 bg-amber-500/[0.08] px-6 py-5">
-          <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center">
-            <span className="material-symbols-outlined text-amber-400" style={{ fontSize: '20px' }}>warning</span>
+      {budgetTier !== 'safe' && (
+        <div className={`mb-8 flex items-start gap-4 rounded-xl border px-6 py-5 ${
+          budgetTier === 'critical'
+            ? 'border-error/40 bg-error/[0.08]'
+            : 'border-amber-500/40 bg-amber-500/[0.08]'
+        }`}>
+          <div className={`flex-shrink-0 w-10 h-10 rounded-xl border flex items-center justify-center ${
+            budgetTier === 'critical'
+              ? 'bg-error/15 border-error/30'
+              : 'bg-amber-500/15 border-amber-500/30'
+          }`}>
+            <span
+              className={`material-symbols-outlined ${budgetTier === 'critical' ? 'text-error' : 'text-amber-400'}`}
+              style={{ fontSize: '20px' }}
+            >
+              {budgetTier === 'critical' ? 'crisis_alert' : 'warning'}
+            </span>
           </div>
           <div>
-            <p className="font-bold text-amber-400 text-sm tracking-tight">Budget Alert</p>
-            <p className="text-sm text-amber-400/80 mt-1">
-              Current active infrastructure projection{' '}
-              <span className="font-mono font-bold text-amber-400">(${monthlyEstimate}/mo)</span>{' '}
-              exceeds your established monthly safety budget{' '}
-              <span className="font-mono font-bold text-amber-400">(${BUDGET_CAP.toLocaleString()}/mo)</span>.
-            </p>
+            {budgetTier === 'critical' ? (
+              <>
+                <p className="font-bold text-error text-sm tracking-tight">Critical: Budget Exceeded</p>
+                <p className="text-sm text-error/80 mt-1">
+                  Active infrastructure projection{' '}
+                  <span className="font-mono font-bold text-error">(${monthlyEstimate}/mo)</span>{' '}
+                  has exceeded your monthly safety budget of{' '}
+                  <span className="font-mono font-bold text-error">${BUDGET_CAP.toLocaleString()}/mo</span>.{' '}
+                  Review and stop unused resources immediately.
+                </p>
+              </>
+            ) : (
+              <>
+                <p className="font-bold text-amber-400 text-sm tracking-tight">Warning: Approaching Budget Limit</p>
+                <p className="text-sm text-amber-400/80 mt-1">
+                  Active infrastructure is at{' '}
+                  <span className="font-mono font-bold text-amber-400">{budgetPct}%</span>{' '}
+                  of your{' '}
+                  <span className="font-mono font-bold text-amber-400">${BUDGET_CAP.toLocaleString()}/mo</span>{' '}
+                  budget{' '}
+                  <span className="font-mono font-bold text-amber-400">(${monthlyEstimate}/mo)</span>.{' '}
+                  Consider stopping idle resources.
+                </p>
+              </>
+            )}
           </div>
         </div>
       )}
