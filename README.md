@@ -13,13 +13,21 @@ The internal metrics and provisioning database are secured behind an authenticat
 
 ## Core Features
 
-* **Role-Based Access Control Simulation:** Integrated end-to-end authentication flows utilizing Supabase Auth (GoTrue framework) and state-driven protected routing patterns.
-* **Continuous Integration & Automated Deployment:** Configured fully automated CI/CD deployment pipelines using GitHub Actions runners, integrated with Azure Static Web Apps.
-* **Optimized Data Layer Performance:** Implemented dynamic vertical scrolling viewports within dense data environments using Tailwind CSS WebKit utility variants, featuring pinned context headers for continuous structural visibility.
+* **Role-Based Access Control Simulation:** 
+Integrated end-to-end authentication flows utilizing Supabase Auth (GoTrue framework) and state-driven protected routing patterns.
+
+* **Continuous Integration & Automated Deployment:** 
+Configured fully automated CI/CD deployment pipelines using GitHub Actions runners, integrated with Azure Static Web Apps.
+
+* **Optimized Data Layer Performance:** 
+Implemented dynamic vertical scrolling viewports within dense data environments using Tailwind CSS WebKit utility variants, featuring pinned context headers for continuous structural visibility.
+
 * **State-Driven Single Page Architecture:** Developed zero-latency internal navigation layers bypassing browser-level document requests to preserve underlying application memory.
+
 * **Real-Time Data Query Processing:** Built asynchronous filter matrices enabling instantaneous evaluation of live provisioned asset registries.
 
-* **Real-Time Budget alert notification and live progression:** Built-in alert and notification systems upon reaching a threshold for financial budget.
+* **Real-Time Budget alert notification and live progression:** 
+Built-in alert and notification systems upon reaching a threshold for financial budget.
 
 ## Interface Specifications
 
