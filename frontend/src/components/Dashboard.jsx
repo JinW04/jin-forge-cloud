@@ -108,9 +108,7 @@ function DashboardContent({ onOpenModal, onNavigate }) {
       )}
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        {/* Left column */}
         <div className="lg:col-span-8 space-y-8">
-          {/* Provisioning form */}
           <div className="bg-surface-container-low p-8 rounded-xl space-y-8 relative overflow-hidden">
             <div className="absolute top-0 right-0 p-6 opacity-10 pointer-events-none">
               <span className="material-symbols-outlined text-8xl">rocket</span>
@@ -185,7 +183,7 @@ function DashboardContent({ onOpenModal, onNavigate }) {
             </button>
           </div>
 
-          {/* Recent requests — live from global state */}
+          {/* Recent requests */}
           <div className="space-y-6">
             <div className="flex items-center justify-between">
               <h3 className="text-xl font-bold font-headline text-on-surface">Recent Requests</h3>
@@ -230,7 +228,6 @@ function DashboardContent({ onOpenModal, onNavigate }) {
           </div>
         </div>
 
-        {/* Right column */}
         <div className="lg:col-span-4 space-y-6">
           <div className="bg-surface-container-high border-t-2 border-primary p-8 rounded-xl space-y-6">
             <div className="flex items-center gap-3">

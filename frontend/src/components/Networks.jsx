@@ -51,7 +51,6 @@ const DDOS_DOT = {
   Disabled: 'bg-amber-400',
 }
 
-// Simple inline SVG network topology placeholder
 function NetworkMap() {
   return (
     <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/10 overflow-hidden relative flex flex-col">

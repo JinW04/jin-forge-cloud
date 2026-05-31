@@ -89,9 +89,8 @@ export function ResourceProvider({ children }) {
         name,
         type,
         icon:     meta.icon,
-        // Added fallbacks here so Supabase never gets a null value!
-        region:   region || 'us-east', 
-        status:   'Deploying', // <--- Forced to match the DB constraint exactly
+        region:   region || 'us-east',
+        status:   'Deploying', // must match DB CHECK constraint
         date:     date || new Date().toISOString().split('T')[0], 
         cost_hr:  meta.costHr,
       })

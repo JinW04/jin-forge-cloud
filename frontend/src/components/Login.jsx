@@ -8,7 +8,6 @@ export default function Login() {
   const [error,    setError]    = useState('')
   const [toast,    setToast]    = useState('')
 
-  // Auto-dismiss the SSO toast after 5 seconds
   useEffect(() => {
     if (!toast) return
     const t = setTimeout(() => setToast(''), 5000)
@@ -32,14 +31,12 @@ export default function Login() {
 
   return (
     <div className="min-h-screen bg-background text-on-surface font-body flex items-center justify-center p-6 ethereal-bg">
-      {/* Decorative background glows */}
       <div className="fixed top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] pointer-events-none -z-0" />
       <div className="fixed bottom-0 left-0 w-[400px] h-[400px] bg-tertiary/5 rounded-full blur-[100px] pointer-events-none -z-0" />
 
       <main className="w-full max-w-[480px] z-10">
         <div className="glass-card rounded-[0.75rem] p-10 flex flex-col items-center space-y-6 shadow-[0px_40px_60px_-15px_rgba(218,226,253,0.08)] border border-outline-variant/10">
 
-          {/* Logo + title */}
           <div className="flex flex-col items-center space-y-4">
             <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-primary to-primary-container flex items-center justify-center shadow-[0_0_25px_rgba(0,120,212,0.4)]">
               <span className="material-symbols-outlined text-on-primary-container text-4xl">
@@ -55,7 +52,6 @@ export default function Login() {
             Sign in with your corporate account to provision and manage cloud infrastructure.
           </p>
 
-          {/* SSO toast */}
           {toast && (
             <div className="w-full rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 flex items-start gap-3">
               <span className="material-symbols-outlined text-amber-400 flex-shrink-0 mt-0.5" style={{ fontSize: '18px' }}>info</span>
@@ -77,14 +73,12 @@ export default function Login() {
             </button>
           </div>
 
-          {/* Divider */}
           <div className="w-full flex items-center gap-4">
             <div className="flex-1 h-px bg-outline-variant/20" />
             <span className="text-[10px] uppercase tracking-widest text-on-surface-variant/50 font-label">or use demo account</span>
             <div className="flex-1 h-px bg-outline-variant/20" />
           </div>
 
-          {/* Email / Password form */}
           <form onSubmit={handleSignIn} className="w-full space-y-4">
             <div className="space-y-2">
               <label className="block text-[10px] uppercase tracking-widest font-bold text-on-surface-variant font-label">
@@ -137,7 +131,6 @@ export default function Login() {
             </button>
           </form>
 
-          {/* Security badge */}
           <div className="w-full pt-2">
             <div className="bg-surface-container-lowest/50 rounded-xl p-4 border-t border-white/5 flex items-center justify-center">
               <div className="flex items-center space-x-3 opacity-60">
@@ -152,7 +145,6 @@ export default function Login() {
           </div>
         </div>
 
-        {/* Footer link */}
         <div className="mt-8 flex justify-center">
           <a
             href="#"
